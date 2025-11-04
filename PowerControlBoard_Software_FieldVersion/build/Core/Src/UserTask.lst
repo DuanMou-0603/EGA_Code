@@ -1,0 +1,856 @@
+ARM GAS   			page 1
+
+
+   1              	 .cpu cortex-m4
+   2              	 .arch armv7e-m
+   3              	 .fpu fpv4-sp-d16
+   4              	 .eabi_attribute 27,1
+   5              	 .eabi_attribute 28,1
+   6              	 .eabi_attribute 23,1
+   7              	 .eabi_attribute 24,1
+   8              	 .eabi_attribute 25,1
+   9              	 .eabi_attribute 26,1
+  10              	 .eabi_attribute 30,2
+  11              	 .eabi_attribute 34,1
+  12              	 .eabi_attribute 18,4
+  13              	 .file "UserTask.cpp"
+  14              	 .text
+  15              	.Ltext0:
+  16              	 .cfi_sections .debug_frame
+  17              	 .file 1 "Core/Src/UserTask.cpp"
+  18              	 .section .text._Z12tickCallbackP19__TIM_HandleTypeDef,"ax",%progbits
+  19              	 .align 1
+  20              	 .p2align 2,,3
+  21              	 .global _Z12tickCallbackP19__TIM_HandleTypeDef
+  22              	 .syntax unified
+  23              	 .thumb
+  24              	 .thumb_func
+  26              	_Z12tickCallbackP19__TIM_HandleTypeDef:
+  27              	.LVL0:
+  28              	.LFB590:
+   1:Core/Src/UserTask.cpp **** #include "main.h"
+   2:Core/Src/UserTask.cpp **** #include "hrtim.h"
+   3:Core/Src/UserTask.cpp **** #include "stdint.h"
+   4:Core/Src/UserTask.cpp **** #include "adc.h"
+   5:Core/Src/UserTask.cpp **** #include "tim.h"
+   6:Core/Src/UserTask.cpp **** #include "dac.h"
+   7:Core/Src/UserTask.cpp **** #include "math.h"
+   8:Core/Src/UserTask.cpp **** 
+   9:Core/Src/UserTask.cpp **** #include "Calibration.hpp"
+  10:Core/Src/UserTask.cpp **** #include "PowerManager.hpp"
+  11:Core/Src/UserTask.cpp **** #include "Utility.hpp"
+  12:Core/Src/UserTask.cpp **** #include "Communication.hpp"
+  13:Core/Src/UserTask.cpp **** #include "Config.hpp"
+  14:Core/Src/UserTask.cpp **** #include "Interface.hpp"
+  15:Core/Src/UserTask.cpp **** 
+  16:Core/Src/UserTask.cpp **** 
+  17:Core/Src/UserTask.cpp **** // uint16_t deadTime = 50;
+  18:Core/Src/UserTask.cpp **** // uint32_t dtxr = deadTime | (deadTime << 16);
+  19:Core/Src/UserTask.cpp **** // hhrtim1.Instance->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = dtxr;
+  20:Core/Src/UserTask.cpp **** 
+  21:Core/Src/UserTask.cpp **** void tickCallback(TIM_HandleTypeDef *htim)
+  22:Core/Src/UserTask.cpp **** {
+  29              	 .loc 1 22 1 view-0
+  30              	 .cfi_startproc
+  31              	 
+  32              	 
+  23:Core/Src/UserTask.cpp ****     if (htim == &htim6) // 4kHz tick
+  33              	 .loc 1 23 5 view .LVU1
+  34 0000 274B     	 ldr r3,.L28
+  35 0002 8342     	 cmp r3,r0
+ARM GAS   			page 2
+
+
+  36 0004 00D0     	 beq .L25
+  37 0006 7047     	 bx lr
+  38              	.L25:
+  39              	.LBB4:
+  40              	.LBI4:
+  21:Core/Src/UserTask.cpp **** {
+  41              	 .loc 1 21 6 view .LVU2
+  42              	.LVL1:
+  43              	.LBB5:
+  24:Core/Src/UserTask.cpp ****     {
+  25:Core/Src/UserTask.cpp ****         // 以下每个任务以1kHz运行
+  26:Core/Src/UserTask.cpp ****         // HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_SET);
+  27:Core/Src/UserTask.cpp ****         // HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_RESET);
+  28:Core/Src/UserTask.cpp ****         switch (sysData.lfLoopIndex)//通过 sysData.lfLoopIndex 实现4个任务的轮询调度，
+  44              	 .loc 1 28 9 view .LVU3
+  45              	.LBE5:
+  46              	.LBE4:
+  22:Core/Src/UserTask.cpp ****     if (htim == &htim6) // 4kHz tick
+  47              	 .loc 1 22 1 is_stmt 0 view .LVU4
+  48 0008 10B5     	 push {r4,lr}
+  49              	 .cfi_def_cfa_offset 8
+  50              	 .cfi_offset 4,-8
+  51              	 .cfi_offset 14,-4
+  52              	.LBB10:
+  53              	.LBB6:
+  54              	 .loc 1 28 25 view .LVU5
+  55 000a 264C     	 ldr r4,.L28+4
+  56              	 .loc 1 28 9 view .LVU6
+  57 000c 237E     	 ldrb r3,[r4,#24]
+  58 000e 032B     	 cmp r3,#3
+  59 0010 41D8     	 bhi .L4
+  60 0012 DFE803F0 	 tbb [pc,r3]
+  61              	.L6:
+  62 0016 17       	 .byte (.L9-.L6)/2
+  63 0017 25       	 .byte (.L8-.L6)/2
+  64 0018 0B       	 .byte (.L7-.L6)/2
+  65 0019 02       	 .byte (.L5-.L6)/2
+  66              	 .p2align 1
+  67              	.L5:
+  29:Core/Src/UserTask.cpp ****         {
+  30:Core/Src/UserTask.cpp ****         case 0://系统基础服务
+  31:Core/Src/UserTask.cpp ****             sysData.vTick++;
+  32:Core/Src/UserTask.cpp ****             Buzzer::update();
+  33:Core/Src/UserTask.cpp ****             //WS2812::update();
+  34:Core/Src/UserTask.cpp ****             Protection::errorHandlerLF();//低频错误处理
+  35:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+  36:Core/Src/UserTask.cpp ****             break;
+  37:Core/Src/UserTask.cpp ****         case 1://通信和用户接口
+  38:Core/Src/UserTask.cpp ****             if(sysData.systemInited)
+  39:Core/Src/UserTask.cpp ****             {
+  40:Core/Src/UserTask.cpp ****                 CANcomm::sendSCData();// 发送超级电容数据
+  41:Core/Src/UserTask.cpp ****                 PowerControl::checkRxDataTimeout(sysData.vTick);//// 检查接收数据超时
+  42:Core/Src/UserTask.cpp ****                 Interface::updateButtonState();// 更新按钮状态
+  43:Core/Src/UserTask.cpp ****             }
+  44:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+  45:Core/Src/UserTask.cpp ****             break;
+  46:Core/Src/UserTask.cpp ****         case 2://ADC和电容管理
+ARM GAS   			page 3
+
+
+  47:Core/Src/UserTask.cpp ****             if(psData.outputABEnabled)
+  48:Core/Src/UserTask.cpp ****             {
+  49:Core/Src/UserTask.cpp ****                 CAPARR::estimateCapacity(sysData.vTick);//估算电容容量
+  50:Core/Src/UserTask.cpp ****             }
+  51:Core/Src/UserTask.cpp ****             ADC::updateADClf();//更新低频ADC数据
+  52:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+  53:Core/Src/UserTask.cpp ****             break;
+  54:Core/Src/UserTask.cpp ****         case 3://保护和WPT控制
+  68              	 .loc 1 54 9 is_stmt 1 view .LVU7
+  55:Core/Src/UserTask.cpp ****             Protection::checkLowBattery();// 检查低电压保护
+  69              	 .loc 1 55 13 view .LVU8
+  70              	 .loc 1 55 40 is_stmt 0 view .LVU9
+  71 001a FFF7FEFF 	 bl _ZN10Protection15checkLowBatteryEv
+  72              	.LVL2:
+  56:Core/Src/UserTask.cpp ****             Interface::updateBuzzerSequence();//更新蜂鸣器序列
+  73              	 .loc 1 56 13 is_stmt 1 view .LVU10
+  74              	 .loc 1 56 44 is_stmt 0 view .LVU11
+  75 001e FFF7FEFF 	 bl _ZN9Interface20updateBuzzerSequenceEv
+  76              	.LVL3:
+  57:Core/Src/UserTask.cpp **** 
+  58:Core/Src/UserTask.cpp ****             #ifdef WPT_HARDWARE
+  59:Core/Src/UserTask.cpp ****             
+  60:Core/Src/UserTask.cpp ****             if(psData.outputEEnabled)
+  61:Core/Src/UserTask.cpp ****             {   //功率监控和ASK通信控制
+  62:Core/Src/UserTask.cpp ****                 askData.lastPowerOnTime = sysData.vTick;
+  63:Core/Src/UserTask.cpp ****                 if(adcData.pWPTlf < 3.0f)
+  64:Core/Src/UserTask.cpp ****                     askData.lowPowerCnt++;
+  65:Core/Src/UserTask.cpp ****                 else
+  66:Core/Src/UserTask.cpp ****                     askData.lowPowerCnt = 0U;
+  67:Core/Src/UserTask.cpp ****             }
+  68:Core/Src/UserTask.cpp ****             else 
+  69:Core/Src/UserTask.cpp ****             {
+  70:Core/Src/UserTask.cpp ****                 askData.enableASK = 0;
+  71:Core/Src/UserTask.cpp ****                 askData.lowPowerCnt = 0;
+  72:Core/Src/UserTask.cpp ****                 if(adcData.vWPT < adcData.vB + 0.5f && adcData.vCaplf > CAPARR_CUTOFF_VOLTAGE)
+  73:Core/Src/UserTask.cpp ****                     askData.allowRestart = 1U; // 允许重新启动WPT
+  74:Core/Src/UserTask.cpp ****             }
+  75:Core/Src/UserTask.cpp ****             
+  76:Core/Src/UserTask.cpp ****             #endif // WPT_HARDWARE
+  77:Core/Src/UserTask.cpp **** 
+  78:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex = 0;
+  77              	 .loc 1 78 13 is_stmt 1 view .LVU12
+  79:Core/Src/UserTask.cpp ****             break;
+  80:Core/Src/UserTask.cpp ****         default:
+  81:Core/Src/UserTask.cpp ****             break;
+  82:Core/Src/UserTask.cpp ****         }
+  83:Core/Src/UserTask.cpp ****         
+  84:Core/Src/UserTask.cpp ****         // 以下每个任务以4kHz运行
+  85:Core/Src/UserTask.cpp ****         
+  86:Core/Src/UserTask.cpp ****         if(sysData.systemInited)
+  78              	 .loc 1 86 20 is_stmt 0 view .LVU13
+  79 0022 2379     	 ldrb r3,[r4,#4]
+  78:Core/Src/UserTask.cpp ****             break;
+  80              	 .loc 1 78 33 view .LVU14
+  81 0024 0022     	 movs r2,#0
+  82 0026 2276     	 strb r2,[r4,#24]
+  79:Core/Src/UserTask.cpp ****             break;
+ARM GAS   			page 4
+
+
+  83              	 .loc 1 79 13 is_stmt 1 view .LVU15
+  84              	 .loc 1 86 9 view .LVU16
+  85 0028 FBB9     	 cbnz r3,.L26
+  86              	.L1:
+  87              	.LBE6:
+  88              	.LBE10:
+  87:Core/Src/UserTask.cpp ****         {
+  88:Core/Src/UserTask.cpp ****             PowerControl::powerOnOffControl();// 电源开关控制
+  89:Core/Src/UserTask.cpp ****             
+  90:Core/Src/UserTask.cpp ****             #ifdef WPT_HARDWARE  // WPT实时控制逻辑
+  91:Core/Src/UserTask.cpp **** 
+  92:Core/Src/UserTask.cpp ****             if(psData.outputEEnabled)
+  93:Core/Src/UserTask.cpp ****             {
+  94:Core/Src/UserTask.cpp ****                   // 电压保护和功率控制
+  95:Core/Src/UserTask.cpp ****                 if(adcData.vCaplf > (CAPARR_MAX_VOLTAGE * 1.01f))//严重过压保护
+  96:Core/Src/UserTask.cpp ****                 {
+  97:Core/Src/UserTask.cpp ****                     askData.enableASK = 0;// 禁用ASK通信
+  98:Core/Src/UserTask.cpp ****                     askData.powerRequirement = 0U;// 停止功率需求
+  99:Core/Src/UserTask.cpp **** 
+ 100:Core/Src/UserTask.cpp ****                     ctrlData.wptStatus = WPT_ERROR; // 设置错误状态
+ 101:Core/Src/UserTask.cpp ****                 }
+ 102:Core/Src/UserTask.cpp ****                 // 充电完成检测
+ 103:Core/Src/UserTask.cpp ****                 else if(adcData.vCaplf > (CAPARR_MAX_VOLTAGE *0.99f))//正常充电完成
+ 104:Core/Src/UserTask.cpp ****                 {
+ 105:Core/Src/UserTask.cpp ****                     askData.powerRequirement = 0U;// 停止功率需求
+ 106:Core/Src/UserTask.cpp ****                     ctrlData.wptStatus = WPT_FINISHED;// 设置充电完成状态
+ 107:Core/Src/UserTask.cpp ****                 }
+ 108:Core/Src/UserTask.cpp ****                 else
+ 109:Core/Src/UserTask.cpp ****                 {
+ 110:Core/Src/UserTask.cpp ****                     if(adcData.vCap * capStatus.maxInCurrent > adcData.pRefereelf + 120.0f)//电容
+ 111:Core/Src/UserTask.cpp ****                         askData.powerRequirement = 1U;// 需要更多功率
+ 112:Core/Src/UserTask.cpp ****                     else
+ 113:Core/Src/UserTask.cpp ****                         askData.powerRequirement = 0U;// 功率充足
+ 114:Core/Src/UserTask.cpp ****                     ctrlData.wptStatus = WPT_CHARGING;//无线充电
+ 115:Core/Src/UserTask.cpp ****                 }
+ 116:Core/Src/UserTask.cpp ****                 
+ 117:Core/Src/UserTask.cpp ****                 if(adcData.pWPTlf > 145.0f)//WPT功率超过145W时触发过功率保护
+ 118:Core/Src/UserTask.cpp ****                 {
+ 119:Core/Src/UserTask.cpp ****                     askData.enableASK = 0;
+ 120:Core/Src/UserTask.cpp ****                     askData.powerRequirement = 0U;
+ 121:Core/Src/UserTask.cpp ****                     ctrlData.wptStatus = WPT_ERROR;
+ 122:Core/Src/UserTask.cpp ****                 } 
+ 123:Core/Src/UserTask.cpp **** 
+ 124:Core/Src/UserTask.cpp ****                 if(!psData.outputABEnabled || adcData.vWPT < adcData.vB || askData.lowPowerCnt > 15
+ 125:Core/Src/UserTask.cpp ****                 {
+ 126:Core/Src/UserTask.cpp ****                     HRTIM::disableOutputE();
+ 127:Core/Src/UserTask.cpp ****                     askData.enableASK = 0;
+ 128:Core/Src/UserTask.cpp ****                     askData.lowPowerCnt = 0U;
+ 129:Core/Src/UserTask.cpp ****                     ctrlData.wptStatus = WPT_OFF;
+ 130:Core/Src/UserTask.cpp ****                 }
+ 131:Core/Src/UserTask.cpp ****             }
+ 132:Core/Src/UserTask.cpp ****             else
+ 133:Core/Src/UserTask.cpp ****             {  
+ 134:Core/Src/UserTask.cpp ****                 if(psData.outputABEnabled && (adcData.vWPT > 29.55f)) // && sysData.vTick - askData
+ 135:Core/Src/UserTask.cpp ****                 {
+ 136:Core/Src/UserTask.cpp ****                     HRTIM::enableOutputE(0.96f);//以96%占空比启动WPT输出
+ 137:Core/Src/UserTask.cpp ****                     askData.allowRestart = 0U;
+ARM GAS   			page 5
+
+
+ 138:Core/Src/UserTask.cpp ****                     
+ 139:Core/Src/UserTask.cpp ****                     askData.powerRequirement = 0U;
+ 140:Core/Src/UserTask.cpp ****                     askData.enableASK = 1;
+ 141:Core/Src/UserTask.cpp ****                     ctrlData.wptStatus = WPT_CHARGING;//初始化ASK通信和充电状态
+ 142:Core/Src/UserTask.cpp ****                 }
+ 143:Core/Src/UserTask.cpp ****             } 
+ 144:Core/Src/UserTask.cpp ****             ASKcomm::askLoop();// ASK通信循环
+ 145:Core/Src/UserTask.cpp ****             #endif // WPT_HARDWARE
+ 146:Core/Src/UserTask.cpp ****         }
+ 147:Core/Src/UserTask.cpp ****         
+ 148:Core/Src/UserTask.cpp ****     }
+ 149:Core/Src/UserTask.cpp **** }
+  89              	 .loc 1 149 1 is_stmt 0 view .LVU17
+  90 002a 10BD     	 pop {r4,pc}
+  91              	.LVL4:
+  92              	.L7:
+  93              	.LBB11:
+  94              	.LBB7:
+  46:Core/Src/UserTask.cpp ****             if(psData.outputABEnabled)
+  95              	 .loc 1 46 9 is_stmt 1 view .LVU18
+  47:Core/Src/UserTask.cpp ****             {
+  96              	 .loc 1 47 13 view .LVU19
+  47:Core/Src/UserTask.cpp ****             {
+  97              	 .loc 1 47 23 is_stmt 0 view .LVU20
+  98 002c 1E4B     	 ldr r3,.L28+8
+  47:Core/Src/UserTask.cpp ****             {
+  99              	 .loc 1 47 13 view .LVU21
+ 100 002e 5B78     	 ldrb r3,[r3,#1]
+ 101 0030 6BBB     	 cbnz r3,.L27
+ 102              	.LVL5:
+ 103              	.L13:
+  51:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+ 104              	 .loc 1 51 13 is_stmt 1 view .LVU22
+  51:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+ 105              	 .loc 1 51 29 is_stmt 0 view .LVU23
+ 106 0032 FFF7FEFF 	 bl _ZN3ADC11updateADClfEv
+ 107              	.LVL6:
+  52:Core/Src/UserTask.cpp ****             break;
+ 108              	 .loc 1 52 13 is_stmt 1 view .LVU24
+  52:Core/Src/UserTask.cpp ****             break;
+ 109              	 .loc 1 52 32 is_stmt 0 view .LVU25
+ 110 0036 227E     	 ldrb r2,[r4,#24]
+  86:Core/Src/UserTask.cpp ****         {
+ 111              	 .loc 1 86 20 view .LVU26
+ 112 0038 2379     	 ldrb r3,[r4,#4]
+  52:Core/Src/UserTask.cpp ****             break;
+ 113              	 .loc 1 52 32 view .LVU27
+ 114 003a 0132     	 adds r2,r2,#1
+ 115 003c 2276     	 strb r2,[r4,#24]
+  53:Core/Src/UserTask.cpp ****         case 3://保护和WPT控制
+ 116              	 .loc 1 53 13 is_stmt 1 view .LVU28
+  86:Core/Src/UserTask.cpp ****         {
+ 117              	 .loc 1 86 9 view .LVU29
+ 118 003e 002B     	 cmp r3,#0
+ 119 0040 F3D0     	 beq .L1
+ 120 0042 12E0     	 b .L26
+ 121              	.LVL7:
+ARM GAS   			page 6
+
+
+ 122              	.L9:
+  30:Core/Src/UserTask.cpp ****             sysData.vTick++;
+ 123              	 .loc 1 30 9 view .LVU30
+  31:Core/Src/UserTask.cpp ****             Buzzer::update();
+ 124              	 .loc 1 31 13 view .LVU31
+  31:Core/Src/UserTask.cpp ****             Buzzer::update();
+ 125              	 .loc 1 31 26 is_stmt 0 view .LVU32
+ 126 0044 2368     	 ldr r3,[r4]
+ 127 0046 0133     	 adds r3,r3,#1
+ 128 0048 2360     	 str r3,[r4]
+  32:Core/Src/UserTask.cpp ****             //WS2812::update();
+ 129              	 .loc 1 32 13 is_stmt 1 view .LVU33
+  32:Core/Src/UserTask.cpp ****             //WS2812::update();
+ 130              	 .loc 1 32 27 is_stmt 0 view .LVU34
+ 131 004a FFF7FEFF 	 bl _ZN6Buzzer6updateEv
+ 132              	.LVL8:
+  34:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+ 133              	 .loc 1 34 13 is_stmt 1 view .LVU35
+  34:Core/Src/UserTask.cpp ****             sysData.lfLoopIndex++;
+ 134              	 .loc 1 34 39 is_stmt 0 view .LVU36
+ 135 004e FFF7FEFF 	 bl _ZN10Protection14errorHandlerLFEv
+ 136              	.LVL9:
+  35:Core/Src/UserTask.cpp ****             break;
+ 137              	 .loc 1 35 13 is_stmt 1 view .LVU37
+  35:Core/Src/UserTask.cpp ****             break;
+ 138              	 .loc 1 35 32 is_stmt 0 view .LVU38
+ 139 0052 227E     	 ldrb r2,[r4,#24]
+  86:Core/Src/UserTask.cpp ****         {
+ 140              	 .loc 1 86 20 view .LVU39
+ 141 0054 2379     	 ldrb r3,[r4,#4]
+  35:Core/Src/UserTask.cpp ****             break;
+ 142              	 .loc 1 35 32 view .LVU40
+ 143 0056 0132     	 adds r2,r2,#1
+ 144 0058 2276     	 strb r2,[r4,#24]
+  36:Core/Src/UserTask.cpp ****         case 1://通信和用户接口
+ 145              	 .loc 1 36 13 is_stmt 1 view .LVU41
+  86:Core/Src/UserTask.cpp ****         {
+ 146              	 .loc 1 86 9 view .LVU42
+ 147 005a 002B     	 cmp r3,#0
+ 148 005c E5D0     	 beq .L1
+ 149 005e 04E0     	 b .L26
+ 150              	.LVL10:
+ 151              	.L8:
+  37:Core/Src/UserTask.cpp ****             if(sysData.systemInited)
+ 152              	 .loc 1 37 9 view .LVU43
+  38:Core/Src/UserTask.cpp ****             {
+ 153              	 .loc 1 38 13 view .LVU44
+ 154 0060 2379     	 ldrb r3,[r4,#4]
+ 155 0062 33B9     	 cbnz r3,.L11
+  44:Core/Src/UserTask.cpp ****             break;
+ 156              	 .loc 1 44 13 view .LVU45
+  44:Core/Src/UserTask.cpp ****             break;
+ 157              	 .loc 1 44 32 is_stmt 0 view .LVU46
+ 158 0064 0223     	 movs r3,#2
+ 159 0066 2376     	 strb r3,[r4,#24]
+  45:Core/Src/UserTask.cpp ****         case 2://ADC和电容管理
+ 160              	 .loc 1 45 13 is_stmt 1 view .LVU47
+ARM GAS   			page 7
+
+
+  86:Core/Src/UserTask.cpp ****         {
+ 161              	 .loc 1 86 9 view .LVU48
+ 162              	.LBE7:
+ 163              	.LBE11:
+ 164              	 .loc 1 149 1 is_stmt 0 view .LVU49
+ 165 0068 10BD     	 pop {r4,pc}
+ 166              	.LVL11:
+ 167              	.L26:
+ 168              	.LBB12:
+ 169              	.LBB8:
+  88:Core/Src/UserTask.cpp ****             
+ 170              	 .loc 1 88 13 is_stmt 1 view .LVU50
+ 171              	.LBE8:
+ 172              	.LBE12:
+ 173              	 .loc 1 149 1 is_stmt 0 view .LVU51
+ 174 006a BDE81040 	 pop {r4,lr}
+ 175              	 .cfi_remember_state
+ 176              	 .cfi_restore 14
+ 177              	 .cfi_restore 4
+ 178              	 .cfi_def_cfa_offset 0
+ 179              	.LBB13:
+ 180              	.LBB9:
+  88:Core/Src/UserTask.cpp ****             
+ 181              	 .loc 1 88 44 view .LVU52
+ 182 006e FFF7FEBF 	 b _ZN12PowerControl17powerOnOffControlEv
+ 183              	.LVL12:
+ 184              	.L11:
+ 185              	 .cfi_restore_state
+  40:Core/Src/UserTask.cpp ****                 PowerControl::checkRxDataTimeout(sysData.vTick);//// 检查接收数据超时
+ 186              	 .loc 1 40 17 is_stmt 1 view .LVU53
+  40:Core/Src/UserTask.cpp ****                 PowerControl::checkRxDataTimeout(sysData.vTick);//// 检查接收数据超时
+ 187              	 .loc 1 40 36 is_stmt 0 view .LVU54
+ 188 0072 FFF7FEFF 	 bl _ZN7CANcomm10sendSCDataEv
+ 189              	.LVL13:
+  41:Core/Src/UserTask.cpp ****                 Interface::updateButtonState();// 更新按钮状态
+ 190              	 .loc 1 41 17 is_stmt 1 view .LVU55
+  41:Core/Src/UserTask.cpp ****                 Interface::updateButtonState();// 更新按钮状态
+ 191              	 .loc 1 41 49 is_stmt 0 view .LVU56
+ 192 0076 0B48     	 ldr r0,.L28+4
+ 193 0078 FFF7FEFF 	 bl _ZN12PowerControl18checkRxDataTimeoutERKm
+ 194              	.LVL14:
+  42:Core/Src/UserTask.cpp ****             }
+ 195              	 .loc 1 42 17 is_stmt 1 view .LVU57
+  42:Core/Src/UserTask.cpp ****             }
+ 196              	 .loc 1 42 45 is_stmt 0 view .LVU58
+ 197 007c FFF7FEFF 	 bl _ZN9Interface17updateButtonStateEv
+ 198              	.LVL15:
+  44:Core/Src/UserTask.cpp ****             break;
+ 199              	 .loc 1 44 32 view .LVU59
+ 200 0080 227E     	 ldrb r2,[r4,#24]
+  86:Core/Src/UserTask.cpp ****         {
+ 201              	 .loc 1 86 20 view .LVU60
+ 202 0082 2379     	 ldrb r3,[r4,#4]
+  44:Core/Src/UserTask.cpp ****             break;
+ 203              	 .loc 1 44 13 is_stmt 1 view .LVU61
+  44:Core/Src/UserTask.cpp ****             break;
+ 204              	 .loc 1 44 32 is_stmt 0 view .LVU62
+ARM GAS   			page 8
+
+
+ 205 0084 0132     	 adds r2,r2,#1
+ 206 0086 2276     	 strb r2,[r4,#24]
+  45:Core/Src/UserTask.cpp ****         case 2://ADC和电容管理
+ 207              	 .loc 1 45 13 is_stmt 1 view .LVU63
+  86:Core/Src/UserTask.cpp ****         {
+ 208              	 .loc 1 86 9 view .LVU64
+ 209 0088 002B     	 cmp r3,#0
+ 210 008a CED0     	 beq .L1
+ 211 008c EDE7     	 b .L26
+ 212              	.LVL16:
+ 213              	.L27:
+  49:Core/Src/UserTask.cpp ****             }
+ 214              	 .loc 1 49 17 view .LVU65
+  49:Core/Src/UserTask.cpp ****             }
+ 215              	 .loc 1 49 41 is_stmt 0 view .LVU66
+ 216 008e 0548     	 ldr r0,.L28+4
+ 217              	.LVL17:
+  49:Core/Src/UserTask.cpp ****             }
+ 218              	 .loc 1 49 41 view .LVU67
+ 219 0090 FFF7FEFF 	 bl _ZN6CAPARR16estimateCapacityERKm
+ 220              	.LVL18:
+ 221 0094 CDE7     	 b .L13
+ 222              	.LVL19:
+ 223              	.L4:
+  38:Core/Src/UserTask.cpp ****             {
+ 224              	 .loc 1 38 24 view .LVU68
+ 225 0096 2379     	 ldrb r3,[r4,#4]
+  86:Core/Src/UserTask.cpp ****         {
+ 226              	 .loc 1 86 9 is_stmt 1 view .LVU69
+ 227 0098 002B     	 cmp r3,#0
+ 228 009a C6D0     	 beq .L1
+ 229 009c E5E7     	 b .L26
+ 230              	.L29:
+ 231 009e 00BF     	 .align 2
+ 232              	.L28:
+ 233 00a0 00000000 	 .word htim6
+ 234 00a4 00000000 	 .word sysData
+ 235 00a8 00000000 	 .word psData
+ 236              	.LBE9:
+ 237              	.LBE13:
+ 238              	 .cfi_endproc
+ 239              	.LFE590:
+ 241              	 .section .text._Z4initv,"ax",%progbits
+ 242              	 .align 1
+ 243              	 .p2align 2,,3
+ 244              	 .global _Z4initv
+ 245              	 .syntax unified
+ 246              	 .thumb
+ 247              	 .thumb_func
+ 249              	_Z4initv:
+ 250              	.LFB591:
+ 150:Core/Src/UserTask.cpp **** 
+ 151:Core/Src/UserTask.cpp **** void init()
+ 152:Core/Src/UserTask.cpp **** {
+ 251              	 .loc 1 152 1 view-0
+ 252              	 .cfi_startproc
+ 253              	 
+ARM GAS   			page 9
+
+
+ 254              	 
+ 153:Core/Src/UserTask.cpp ****     Protection::configAWDG();//配置模拟看门狗，用于电压监控和保护。
+ 255              	 .loc 1 153 5 view .LVU71
+ 152:Core/Src/UserTask.cpp ****     Protection::configAWDG();//配置模拟看门狗，用于电压监控和保护。
+ 256              	 .loc 1 152 1 is_stmt 0 view .LVU72
+ 257 0000 10B5     	 push {r4,lr}
+ 258              	 .cfi_def_cfa_offset 8
+ 259              	 .cfi_offset 4,-8
+ 260              	 .cfi_offset 14,-4
+ 154:Core/Src/UserTask.cpp **** 
+ 155:Core/Src/UserTask.cpp ****     ADC::initAnalog();//配置运放、比较器等模拟电路
+ 156:Core/Src/UserTask.cpp ****     ADC::initADC();
+ 157:Core/Src/UserTask.cpp **** 
+ 158:Core/Src/UserTask.cpp ****     CANcomm::init();
+ 159:Core/Src/UserTask.cpp ****     //WS2812::init();
+ 160:Core/Src/UserTask.cpp ****     Buzzer::init();
+ 161:Core/Src/UserTask.cpp ****     
+ 162:Core/Src/UserTask.cpp ****     HAL_TIM_RegisterCallback(&htim6, HAL_TIM_PERIOD_ELAPSED_CB_ID, tickCallback);
+ 261              	 .loc 1 162 29 view .LVU73
+ 262 0002 194C     	 ldr r4,.L32
+ 153:Core/Src/UserTask.cpp **** 
+ 263              	 .loc 1 153 27 view .LVU74
+ 264 0004 FFF7FEFF 	 bl _ZN10Protection10configAWDGEv
+ 265              	.LVL20:
+ 155:Core/Src/UserTask.cpp ****     ADC::initADC();
+ 266              	 .loc 1 155 5 is_stmt 1 view .LVU75
+ 155:Core/Src/UserTask.cpp ****     ADC::initADC();
+ 267              	 .loc 1 155 20 is_stmt 0 view .LVU76
+ 268 0008 FFF7FEFF 	 bl _ZN3ADC10initAnalogEv
+ 269              	.LVL21:
+ 156:Core/Src/UserTask.cpp **** 
+ 270              	 .loc 1 156 5 is_stmt 1 view .LVU77
+ 156:Core/Src/UserTask.cpp **** 
+ 271              	 .loc 1 156 17 is_stmt 0 view .LVU78
+ 272 000c FFF7FEFF 	 bl _ZN3ADC7initADCEv
+ 273              	.LVL22:
+ 158:Core/Src/UserTask.cpp ****     //WS2812::init();
+ 274              	 .loc 1 158 5 is_stmt 1 view .LVU79
+ 158:Core/Src/UserTask.cpp ****     //WS2812::init();
+ 275              	 .loc 1 158 18 is_stmt 0 view .LVU80
+ 276 0010 FFF7FEFF 	 bl _ZN7CANcomm4initEv
+ 277              	.LVL23:
+ 160:Core/Src/UserTask.cpp ****     
+ 278              	 .loc 1 160 5 is_stmt 1 view .LVU81
+ 160:Core/Src/UserTask.cpp ****     
+ 279              	 .loc 1 160 17 is_stmt 0 view .LVU82
+ 280 0014 FFF7FEFF 	 bl _ZN6Buzzer4initEv
+ 281              	.LVL24:
+ 282              	 .loc 1 162 5 is_stmt 1 view .LVU83
+ 283              	 .loc 1 162 29 is_stmt 0 view .LVU84
+ 284 0018 144A     	 ldr r2,.L32+4
+ 285 001a 0E21     	 movs r1,#14
+ 286 001c 2046     	 mov r0,r4
+ 287 001e FFF7FEFF 	 bl HAL_TIM_RegisterCallback
+ 288              	.LVL25:
+ 163:Core/Src/UserTask.cpp ****     HAL_TIM_Base_Start_IT(&htim6);//4kHz系统滴答定时器，驱动主要任务调度
+ 289              	 .loc 1 163 5 is_stmt 1 view .LVU85
+ARM GAS   			page 10
+
+
+ 290              	 .loc 1 163 26 is_stmt 0 view .LVU86
+ 291 0022 2046     	 mov r0,r4
+ 292 0024 FFF7FEFF 	 bl HAL_TIM_Base_Start_IT
+ 293              	.LVL26:
+ 164:Core/Src/UserTask.cpp ****     
+ 165:Core/Src/UserTask.cpp ****     HAL_TIM_Base_Start(&htim16);
+ 294              	 .loc 1 165 5 is_stmt 1 view .LVU87
+ 166:Core/Src/UserTask.cpp ****     
+ 167:Core/Src/UserTask.cpp ****     #ifdef WPT_HARDWARE
+ 168:Core/Src/UserTask.cpp **** 
+ 169:Core/Src/UserTask.cpp ****     ASKcomm::init();
+ 170:Core/Src/UserTask.cpp **** 
+ 171:Core/Src/UserTask.cpp ****     #endif // WPT_HARDWARE
+ 172:Core/Src/UserTask.cpp **** 
+ 173:Core/Src/UserTask.cpp ****     Protection::checkHardwareUID();
+ 174:Core/Src/UserTask.cpp ****     Buzzer::play(800, 150);//系统启动音
+ 175:Core/Src/UserTask.cpp ****     
+ 176:Core/Src/UserTask.cpp ****     HAL_HRTIM_WaveformOutputStop(&hhrtim1, HRTIM_OUTPUT_TA1 + HRTIM_OUTPUT_TA2);
+ 295              	 .loc 1 176 33 is_stmt 0 view .LVU88
+ 296 0028 114C     	 ldr r4,.L32+8
+ 165:Core/Src/UserTask.cpp ****     
+ 297              	 .loc 1 165 23 view .LVU89
+ 298 002a 1248     	 ldr r0,.L32+12
+ 299 002c FFF7FEFF 	 bl HAL_TIM_Base_Start
+ 300              	.LVL27:
+ 173:Core/Src/UserTask.cpp ****     Buzzer::play(800, 150);//系统启动音
+ 301              	 .loc 1 173 5 is_stmt 1 view .LVU90
+ 173:Core/Src/UserTask.cpp ****     Buzzer::play(800, 150);//系统启动音
+ 302              	 .loc 1 173 33 is_stmt 0 view .LVU91
+ 303 0030 FFF7FEFF 	 bl _ZN10Protection16checkHardwareUIDEv
+ 304              	.LVL28:
+ 174:Core/Src/UserTask.cpp ****     
+ 305              	 .loc 1 174 5 is_stmt 1 view .LVU92
+ 174:Core/Src/UserTask.cpp ****     
+ 306              	 .loc 1 174 17 is_stmt 0 view .LVU93
+ 307 0034 9621     	 movs r1,#150
+ 308 0036 4FF44870 	 mov r0,#800
+ 309 003a FFF7FEFF 	 bl _ZN6Buzzer4playEtt
+ 310              	.LVL29:
+ 311              	 .loc 1 176 5 is_stmt 1 view .LVU94
+ 312              	 .loc 1 176 33 is_stmt 0 view .LVU95
+ 313 003e 0321     	 movs r1,#3
+ 314 0040 2046     	 mov r0,r4
+ 315 0042 FFF7FEFF 	 bl HAL_HRTIM_WaveformOutputStop
+ 316              	.LVL30:
+ 177:Core/Src/UserTask.cpp ****     HAL_HRTIM_WaveformOutputStop(&hhrtim1, HRTIM_OUTPUT_TB1 + HRTIM_OUTPUT_TB2);
+ 317              	 .loc 1 177 5 is_stmt 1 view .LVU96
+ 318              	 .loc 1 177 33 is_stmt 0 view .LVU97
+ 319 0046 0C21     	 movs r1,#12
+ 320 0048 2046     	 mov r0,r4
+ 321 004a FFF7FEFF 	 bl HAL_HRTIM_WaveformOutputStop
+ 322              	.LVL31:
+ 178:Core/Src/UserTask.cpp ****     //确保TA1、TA2、TB1、TB2通道初始状态为关闭
+ 179:Core/Src/UserTask.cpp ****     psData.outputABEnabled = 0;
+ 323              	 .loc 1 179 5 is_stmt 1 view .LVU98
+ 324              	 .loc 1 179 28 is_stmt 0 view .LVU99
+ 325 004e 0A4B     	 ldr r3,.L32+16
+ARM GAS   			page 11
+
+
+ 326 0050 0022     	 movs r2,#0
+ 327 0052 5A70     	 strb r2,[r3,#1]
+ 180:Core/Src/UserTask.cpp ****     HRTIM::startTimer();
+ 328              	 .loc 1 180 5 is_stmt 1 view .LVU100
+ 329              	 .loc 1 180 22 is_stmt 0 view .LVU101
+ 330 0054 FFF7FEFF 	 bl _ZN5HRTIM10startTimerEv
+ 331              	.LVL32:
+ 181:Core/Src/UserTask.cpp **** 
+ 182:Core/Src/UserTask.cpp ****     HAL_Delay(400);
+ 332              	 .loc 1 182 5 is_stmt 1 view .LVU102
+ 333              	 .loc 1 182 14 is_stmt 0 view .LVU103
+ 334 0058 4FF4C870 	 mov r0,#400
+ 335 005c FFF7FEFF 	 bl HAL_Delay
+ 336              	.LVL33:
+ 183:Core/Src/UserTask.cpp ****     sysData.systemInited = true;
+ 337              	 .loc 1 183 5 is_stmt 1 view .LVU104
+ 338              	 .loc 1 183 26 is_stmt 0 view .LVU105
+ 339 0060 064B     	 ldr r3,.L32+20
+ 340 0062 0122     	 movs r2,#1
+ 341 0064 1A71     	 strb r2,[r3,#4]
+ 184:Core/Src/UserTask.cpp **** }
+ 342              	 .loc 1 184 1 view .LVU106
+ 343 0066 10BD     	 pop {r4,pc}
+ 344              	.L33:
+ 345              	 .align 2
+ 346              	.L32:
+ 347 0068 00000000 	 .word htim6
+ 348 006c 00000000 	 .word _Z12tickCallbackP19__TIM_HandleTypeDef
+ 349 0070 00000000 	 .word hhrtim1
+ 350 0074 00000000 	 .word htim16
+ 351 0078 00000000 	 .word psData
+ 352 007c 00000000 	 .word sysData
+ 353              	 .cfi_endproc
+ 354              	.LFE591:
+ 356              	 .section .text.systemStart,"ax",%progbits
+ 357              	 .align 1
+ 358              	 .p2align 2,,3
+ 359              	 .global systemStart
+ 360              	 .syntax unified
+ 361              	 .thumb
+ 362              	 .thumb_func
+ 364              	systemStart:
+ 365              	.LFB593:
+ 185:Core/Src/UserTask.cpp **** 
+ 186:Core/Src/UserTask.cpp **** 
+ 187:Core/Src/UserTask.cpp **** static void loop()
+ 188:Core/Src/UserTask.cpp **** {
+ 189:Core/Src/UserTask.cpp ****     while (true)
+ 190:Core/Src/UserTask.cpp ****     {
+ 191:Core/Src/UserTask.cpp ****         HAL_Delay(1);
+ 192:Core/Src/UserTask.cpp ****         // WS2812::blink(0, COLOR_BLANK);
+ 193:Core/Src/UserTask.cpp ****         // WS2812::blink(1, COLOR_BLANK);
+ 194:Core/Src/UserTask.cpp ****         // WS2812::blink(2, COLOR_BLANK);
+ 195:Core/Src/UserTask.cpp ****     }
+ 196:Core/Src/UserTask.cpp **** }
+ 197:Core/Src/UserTask.cpp **** 
+ 198:Core/Src/UserTask.cpp **** extern "C"
+ARM GAS   			page 12
+
+
+ 199:Core/Src/UserTask.cpp **** {
+ 200:Core/Src/UserTask.cpp ****     void systemStart()
+ 201:Core/Src/UserTask.cpp ****     {
+ 366              	 .loc 1 201 5 is_stmt 1 view-0
+ 367              	 .cfi_startproc
+ 368              	 
+ 369              	 
+ 370              	 
+ 202:Core/Src/UserTask.cpp ****         init();
+ 371              	 .loc 1 202 9 view .LVU108
+ 201:Core/Src/UserTask.cpp ****         init();
+ 372              	 .loc 1 201 5 is_stmt 0 view .LVU109
+ 373 0000 08B5     	 push {r3,lr}
+ 374              	 .cfi_def_cfa_offset 8
+ 375              	 .cfi_offset 3,-8
+ 376              	 .cfi_offset 14,-4
+ 377              	 .loc 1 202 13 view .LVU110
+ 378 0002 FFF7FEFF 	 bl _Z4initv
+ 379              	.LVL34:
+ 203:Core/Src/UserTask.cpp ****         loop();
+ 380              	 .loc 1 203 9 is_stmt 1 view .LVU111
+ 381              	.LBB16:
+ 382              	.LBI16:
+ 187:Core/Src/UserTask.cpp **** {
+ 383              	 .loc 1 187 13 view .LVU112
+ 384              	.L35:
+ 385              	.LBB17:
+ 189:Core/Src/UserTask.cpp ****     {
+ 386              	 .loc 1 189 5 view .LVU113
+ 191:Core/Src/UserTask.cpp ****         // WS2812::blink(0, COLOR_BLANK);
+ 387              	 .loc 1 191 9 discriminator 1 view .LVU114
+ 191:Core/Src/UserTask.cpp ****         // WS2812::blink(0, COLOR_BLANK);
+ 388              	 .loc 1 191 18 is_stmt 0 discriminator 1 view .LVU115
+ 389 0006 0120     	 movs r0,#1
+ 390 0008 FFF7FEFF 	 bl HAL_Delay
+ 391              	.LVL35:
+ 189:Core/Src/UserTask.cpp ****     {
+ 392              	 .loc 1 189 5 is_stmt 1 view .LVU116
+ 393 000c FBE7     	 b .L35
+ 394              	.LBE17:
+ 395              	.LBE16:
+ 396              	 .cfi_endproc
+ 397              	.LFE593:
+ 399 000e 00BF     	 .text
+ 400              	.Letext0:
+ 401              	 .file 2 "D:/msys2/mingw64/arm-none-eabi/include/machine/_default_types.h"
+ 402              	 .file 3 "D:/msys2/mingw64/arm-none-eabi/include/sys/_stdint.h"
+ 403              	 .file 4 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 404              	 .file 5 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 405              	 .file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
+ 406              	 .file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_hrtim.h"
+ 407              	 .file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h"
+ 408              	 .file 9 "Core/Inc/hrtim.h"
+ 409              	 .file 10 "Core/Inc/tim.h"
+ 410              	 .file 11 "D:/msys2/mingw64/arm-none-eabi/include/c++/13.3.0/cmath"
+ 411              	 .file 12 "D:/msys2/mingw64/arm-none-eabi/include/c++/13.3.0/bits/std_abs.h"
+ 412              	 .file 13 "D:/msys2/mingw64/arm-none-eabi/include/c++/13.3.0/arm-none-eabi/thumb/v7e-m+fp/hard/bits/c++config.h"
+ARM GAS   			page 13
+
+
+ 413              	 .file 14 "D:/msys2/mingw64/arm-none-eabi/include/math.h"
+ 414              	 .file 15 "D:/msys2/mingw64/arm-none-eabi/include/c++/13.3.0/math.h"
+ 415              	 .file 16 "Core/Inc/Interface.hpp"
+ 416              	 .file 17 "Core/Inc/PowerManager.hpp"
+ 417              	 .file 18 "Core/Inc/Communication.hpp"
+ 418              	 .file 19 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
+ARM GAS   			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 UserTask.cpp
+    {standard input}:19     .text._Z12tickCallbackP19__TIM_HandleTypeDef:00000000 $t
+    {standard input}:26     .text._Z12tickCallbackP19__TIM_HandleTypeDef:00000000 _Z12tickCallbackP19__TIM_HandleTypeDef
+    {standard input}:62     .text._Z12tickCallbackP19__TIM_HandleTypeDef:00000016 $d
+    {standard input}:66     .text._Z12tickCallbackP19__TIM_HandleTypeDef:0000001a $t
+    {standard input}:233    .text._Z12tickCallbackP19__TIM_HandleTypeDef:000000a0 $d
+    {standard input}:242    .text._Z4initv:00000000 $t
+    {standard input}:249    .text._Z4initv:00000000 _Z4initv
+    {standard input}:347    .text._Z4initv:00000068 $d
+    {standard input}:357    .text.systemStart:00000000 $t
+    {standard input}:364    .text.systemStart:00000000 systemStart
+                           .group:00000000 wm4.0.b31bb6d3ef0245c0baa6a03aaab3dc6e
+                           .group:00000000 wm4.stm32g4xx_hal_conf.h.23.29f848e16b8f40ab9160f466e02fbac5
+                           .group:00000000 wm4.stm32g4xx.h.38.4ce5d67cecf3db23972af81b516b937b
+                           .group:00000000 wm4.stm32g474xx.h.34.0f14ed7ce45f8c3c7c55af7520d7efa5
+                           .group:00000000 wm4.stdint.h.4.659be5aa44c4ab4eb7c7cc2b24d8ceee
+                           .group:00000000 wm4._newlib_version.h.4.0eb654b64686e2bd29646258853f6c22
+                           .group:00000000 wm4.features.h.33.d554620bb17bd3b714c3fb5c268772bc
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.cmsis_version.h.32.46e8eccfa2cfeaae11d008bb2823a3ed
+                           .group:00000000 wm4.core_cm4.h.66.e4ff136c4a17abc46741866f64f8e729
+                           .group:00000000 wm4.cmsis_gcc.h.26.78077cef1206e937f7b56043ffca496a
+                           .group:00000000 wm4.core_cm4.h.174.701851045f388571f9bdeebf2557adc2
+                           .group:00000000 wm4.mpu_armv7.h.32.4049752bb5792d4e15357775e9506cfc
+                           .group:00000000 wm4.stm32g474xx.h.714.40df4d5d8bd1a3a0e2dcb49e18b09038
+                           .group:00000000 wm4.stm32g4xx.h.158.aa4340ed3b15fb0d4b1741cf5ce96563
+                           .group:00000000 wm4.stm32_hal_legacy.h.22.e1e932ae083ad1562e3b1af87ae47999
+                           .group:00000000 wm4.stddef.h.39.6a366d794a51dd51221993fa348b00b3
+                           .group:00000000 wm4.stm32g4xx_hal_def.h.57.460ac21f0caebde175d7222cb23afe15
+                           .group:00000000 wm4.stm32g4xx_hal_rcc.h.135.8d28bdf720f4165758e115c83d05a7c2
+                           .group:00000000 wm4.stm32g4xx_hal_rcc_ex.h.20.a381de89af88802207f549f948fabbc4
+                           .group:00000000 wm4.stm32g4xx_hal_gpio.h.21.2ca30689d7a5ad939e06f5298d557243
+                           .group:00000000 wm4.stm32g4xx_hal_gpio_ex.h.22.1b7da6fc7615b2341724123ae8e461d9
+                           .group:00000000 wm4.stm32g4xx_hal_dma.h.21.2e23b0d56595a6b838cda841e78b2cf2
+                           .group:00000000 wm4.stm32g4xx_hal_dma_ex.h.21.93a1fe56678997ad72754076070f4a0d
+                           .group:00000000 wm4.stm32g4xx_hal_dma.h.803.dd88ea57b632f588d556f066658ac8d8
+                           .group:00000000 wm4.stm32g4xx_hal_cortex.h.20.1ad77fb6b4fc679887cb0a980ea44a7a
+                           .group:00000000 wm4.stm32g4xx_ll_adc.h.21.8052bcc80fb264686ac0eb0df096b4eb
+                           .group:00000000 wm4.stm32g4xx_hal_adc.h.441.b9143c2a34e1e7389f3042e2226178dc
+                           .group:00000000 wm4.stm32g4xx_hal_adc_ex.h.21.bf5e513b0c782ac53971b6599734b8c4
+                           .group:00000000 wm4.stm32g4xx_ll_exti.h.21.3148a6980741767f71761eb445f346e9
+                           .group:00000000 wm4.stm32g4xx_hal_comp.h.74.993852ecfac8b19c902e64e33c61511c
+                           .group:00000000 wm4.stm32g4xx_hal_dac.h.21.db627068e52007634376a4c972c5d419
+                           .group:00000000 wm4.stm32g4xx_hal_dac_ex.h.21.3725e9b2e9e08a08e2a598b2d2f18a92
+                           .group:00000000 wm4.stm32g4xx_hal_exti.h.21.723acd8e98480aae634680651af4eb2a
+                           .group:00000000 wm4.stm32g4xx_hal_fdcan.h.21.7e3b4b48cfc4adf8b669f7e4b16ec2a0
+                           .group:00000000 wm4.stm32g4xx_hal_flash.h.20.d5eb04c7abbe2eb79b40a04b3414a774
+                           .group:00000000 wm4.stm32g4xx_hal_flash.h.868.06dd2f9ca2f40ac164951ad647480079
+                           .group:00000000 wm4.stm32g4xx_hal_hrtim.h.21.5bb9cc2116aa63503a68d53ce84fbb8c
+                           .group:00000000 wm4.stm32g4xx_hal_opamp.h.21.0de86917e81e98dccfa125838db59b66
+                           .group:00000000 wm4.stm32g4xx_hal_pwr.h.21.9b149e14c0ecf58cee46e8fb7f654b77
+                           .group:00000000 wm4.stm32g4xx_hal_pwr_ex.h.21.32206cbbd2cbec024b8600a98cfa3df7
+                           .group:00000000 wm4.stm32g4xx_hal_tim.h.21.48998681c932026239437f6645b6b47f
+ARM GAS   			page 15
+
+
+                           .group:00000000 wm4.stm32g4xx_hal_tim_ex.h.21.931c546f492dcdbc9ac587da38712500
+                           .group:00000000 wm4.stm32g4xx_hal.h.49.77ad48c45d6a59e5132483403b560be0
+                           .group:00000000 wm4.main.h.60.b5d5fcf8e20642920eaa5e2c93fc5ae7
+                           .group:00000000 wm4.cconfig.h.31.9b6806e9df44a3935ce2b6075ff9b1c3
+                           .group:00000000 wm4.cpu_defines.h.31.bf53b50a3b7882b34c717ebded187478
+                           .group:00000000 wm4.cconfig.h.687.5711c76707940ee402f7840be13f445e
+                           .group:00000000 wm4.cpp_type_traits.h.33.b2288289d5c7729e9da760b2466185ce
+                           .group:00000000 wm4.newlib.h.7.a37ffbe9e5aff74303f4e60b1cc1c01b
+                           .group:00000000 wm4.ieeefp.h.77.61a77db5804869b1dadd307a77cf78c9
+                           .group:00000000 wm4.config.h.224.10ee1ad185d877c6e334e6581faab44d
+                           .group:00000000 wm4._ansi.h.21.5136fa2a01d1fcd44a2e65c6c2417611
+                           .group:00000000 wm4.cdefs.h.49.9ae67f7b5912e9c24d0a02ce568b3397
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.158.3fff3361c70cda206521c37291df2349
+                           .group:00000000 wm4._types.h.127.3bdfe3ff8ea2d0985b03d9cbe93480e3
+                           .group:00000000 wm4.reent.h.18.25503cdc8b7e55dd0d6ea7b3e5af7a03
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.78.6b87466b04591b1f1cb88c14fdf2ba9e
+                           .group:00000000 wm4.math.h.13.2e6865621b215578d4c2c0c464db4955
+                           .group:00000000 wm4.std_abs.h.31.040e5b5b1580bc5021e41927de41d0b5
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stddef.h.158.0f92cc28c47dc7125844b7df2e400b04
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.std_abs.h.42.301267e565a27b578b118540cf0e4de0
+                           .group:00000000 wm4.cmath.52.d0d8767e34db956ac7be48d4efd6949a
+                           .group:00000000 wm4.Calibration.hpp.6.169f8557308f26efaffb337be3d60812
+                           .group:00000000 wm4.Config.hpp.7.b2527e13130082181addaa6c3fd0ae12
+                           .group:00000000 wm4.Interface.hpp.10.205fd8dd7cca848ea5b61c14f2c2eb45
+                           .group:00000000 wm4.Utility.hpp.9.378999a7136498b1fcaa268e05c8cfe4
+                           .group:00000000 wm4.PowerManager.hpp.23.abfc26d9e09f6eed6a3d86390eee6d91
+
+UNDEFINED SYMBOLS
+_ZN10Protection15checkLowBatteryEv
+_ZN9Interface20updateBuzzerSequenceEv
+_ZN3ADC11updateADClfEv
+_ZN6Buzzer6updateEv
+_ZN10Protection14errorHandlerLFEv
+_ZN12PowerControl17powerOnOffControlEv
+_ZN7CANcomm10sendSCDataEv
+_ZN12PowerControl18checkRxDataTimeoutERKm
+_ZN9Interface17updateButtonStateEv
+_ZN6CAPARR16estimateCapacityERKm
+htim6
+sysData
+psData
+_ZN10Protection10configAWDGEv
+_ZN3ADC10initAnalogEv
+_ZN3ADC7initADCEv
+_ZN7CANcomm4initEv
+_ZN6Buzzer4initEv
+HAL_TIM_RegisterCallback
+HAL_TIM_Base_Start_IT
+HAL_TIM_Base_Start
+_ZN10Protection16checkHardwareUIDEv
+_ZN6Buzzer4playEtt
+HAL_HRTIM_WaveformOutputStop
+ARM GAS   			page 16
+
+
+_ZN5HRTIM10startTimerEv
+HAL_Delay
+hhrtim1
+htim16

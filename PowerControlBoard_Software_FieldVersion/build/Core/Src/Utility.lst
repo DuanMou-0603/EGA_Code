@@ -1,0 +1,408 @@
+ARM GAS   			page 1
+
+
+   1              	 .cpu cortex-m4
+   2              	 .arch armv7e-m
+   3              	 .fpu fpv4-sp-d16
+   4              	 .eabi_attribute 27,1
+   5              	 .eabi_attribute 28,1
+   6              	 .eabi_attribute 23,1
+   7              	 .eabi_attribute 24,1
+   8              	 .eabi_attribute 25,1
+   9              	 .eabi_attribute 26,1
+  10              	 .eabi_attribute 30,2
+  11              	 .eabi_attribute 34,1
+  12              	 .eabi_attribute 18,4
+  13              	 .file "Utility.cpp"
+  14              	 .text
+  15              	.Ltext0:
+  16              	 .cfi_sections .debug_frame
+  17              	 .file 1 "Core/Src/Utility.cpp"
+  18              	 .section .text._ZN15IncreasementPID12setParameterEffff,"ax",%progbits
+  19              	 .align 1
+  20              	 .p2align 2,,3
+  21              	 .global _ZN15IncreasementPID12setParameterEffff
+  22              	 .syntax unified
+  23              	 .thumb
+  24              	 .thumb_func
+  26              	_ZN15IncreasementPID12setParameterEffff:
+  27              	.LVL0:
+  28              	.LFB364:
+   1:Core/Src/Utility.cpp **** #include "Utility.hpp"
+   2:Core/Src/Utility.cpp **** 
+   3:Core/Src/Utility.cpp **** 
+   4:Core/Src/Utility.cpp **** void IncreasementPID::setParameter(float _kTargetP, float _kMeasureP, float _kI, float _kD)
+   5:Core/Src/Utility.cpp **** {
+  29              	 .loc 1 5 1 view-0
+  30              	 .cfi_startproc
+  31              	 
+  32              	 
+  33              	 
+   6:Core/Src/Utility.cpp ****     kTP = _kTargetP;
+  34              	 .loc 1 6 5 view .LVU1
+  35              	 .loc 1 6 9 is_stmt 0 view .LVU2
+  36 0000 80ED000A 	 vstr.32 s0,[r0]
+   7:Core/Src/Utility.cpp ****     kMP = _kMeasureP;
+  37              	 .loc 1 7 5 is_stmt 1 view .LVU3
+  38              	 .loc 1 7 9 is_stmt 0 view .LVU4
+  39 0004 C0ED010A 	 vstr.32 s1,[r0,#4]
+   8:Core/Src/Utility.cpp ****     kI = _kI;
+  40              	 .loc 1 8 5 is_stmt 1 view .LVU5
+  41              	 .loc 1 8 8 is_stmt 0 view .LVU6
+  42 0008 80ED021A 	 vstr.32 s2,[r0,#8]
+   9:Core/Src/Utility.cpp ****     kD = _kD;
+  43              	 .loc 1 9 5 is_stmt 1 view .LVU7
+  44              	 .loc 1 9 8 is_stmt 0 view .LVU8
+  45 000c C0ED031A 	 vstr.32 s3,[r0,#12]
+  10:Core/Src/Utility.cpp **** }
+  46              	 .loc 1 10 1 view .LVU9
+  47 0010 7047     	 bx lr
+  48              	 .cfi_endproc
+ARM GAS   			page 2
+
+
+  49              	.LFE364:
+  51 0012 00BF     	 .section .text._ZN15IncreasementPID8setClampEff,"ax",%progbits
+  52              	 .align 1
+  53              	 .p2align 2,,3
+  54              	 .global _ZN15IncreasementPID8setClampEff
+  55              	 .syntax unified
+  56              	 .thumb
+  57              	 .thumb_func
+  59              	_ZN15IncreasementPID8setClampEff:
+  60              	.LVL1:
+  61              	.LFB365:
+  11:Core/Src/Utility.cpp **** void IncreasementPID::setClamp(float _lower, float _upper)//输出限幅
+  12:Core/Src/Utility.cpp **** {
+  62              	 .loc 1 12 1 is_stmt 1 view-0
+  63              	 .cfi_startproc
+  64              	 
+  65              	 
+  66              	 
+  13:Core/Src/Utility.cpp ****     clamp_lower = _lower;
+  67              	 .loc 1 13 5 view .LVU11
+  14:Core/Src/Utility.cpp ****     clamp_upper = _upper;
+  15:Core/Src/Utility.cpp ****     clamp_enabled = true;
+  68              	 .loc 1 15 19 is_stmt 0 view .LVU12
+  69 0000 0123     	 movs r3,#1
+  13:Core/Src/Utility.cpp ****     clamp_lower = _lower;
+  70              	 .loc 1 13 17 view .LVU13
+  71 0002 80ED090A 	 vstr.32 s0,[r0,#36]
+  14:Core/Src/Utility.cpp ****     clamp_upper = _upper;
+  72              	 .loc 1 14 5 is_stmt 1 view .LVU14
+  14:Core/Src/Utility.cpp ****     clamp_upper = _upper;
+  73              	 .loc 1 14 17 is_stmt 0 view .LVU15
+  74 0006 C0ED080A 	 vstr.32 s1,[r0,#32]
+  75              	 .loc 1 15 5 is_stmt 1 view .LVU16
+  76              	 .loc 1 15 19 is_stmt 0 view .LVU17
+  77 000a 80F82830 	 strb r3,[r0,#40]
+  16:Core/Src/Utility.cpp **** }
+  78              	 .loc 1 16 1 view .LVU18
+  79 000e 7047     	 bx lr
+  80              	 .cfi_endproc
+  81              	.LFE365:
+  83              	 .section .text._ZN15IncreasementPID12disableClampEv,"ax",%progbits
+  84              	 .align 1
+  85              	 .p2align 2,,3
+  86              	 .global _ZN15IncreasementPID12disableClampEv
+  87              	 .syntax unified
+  88              	 .thumb
+  89              	 .thumb_func
+  91              	_ZN15IncreasementPID12disableClampEv:
+  92              	.LVL2:
+  93              	.LFB366:
+  17:Core/Src/Utility.cpp **** void IncreasementPID::disableClamp()
+  18:Core/Src/Utility.cpp **** {
+  94              	 .loc 1 18 1 is_stmt 1 view-0
+  95              	 .cfi_startproc
+  96              	 
+  97              	 
+  98              	 
+ARM GAS   			page 3
+
+
+  19:Core/Src/Utility.cpp ****     clamp_enabled = false;
+  99              	 .loc 1 19 5 view .LVU20
+ 100              	 .loc 1 19 19 is_stmt 0 view .LVU21
+ 101 0000 0023     	 movs r3,#0
+ 102 0002 80F82830 	 strb r3,[r0,#40]
+  20:Core/Src/Utility.cpp **** }
+ 103              	 .loc 1 20 1 view .LVU22
+ 104 0006 7047     	 bx lr
+ 105              	 .cfi_endproc
+ 106              	.LFE366:
+ 108              	 .section .text._ZN15IncreasementPID12computeDeltaEff,"ax",%progbits
+ 109              	 .align 1
+ 110              	 .p2align 2,,3
+ 111              	 .global _ZN15IncreasementPID12computeDeltaEff
+ 112              	 .syntax unified
+ 113              	 .thumb
+ 114              	 .thumb_func
+ 116              	_ZN15IncreasementPID12computeDeltaEff:
+ 117              	.LVL3:
+ 118              	.LFB367:
+  21:Core/Src/Utility.cpp **** //传统增量式PID Δu(k) = Kp[e(k) - e(k-1)] + Ki*e(k) + Kd[e(k) - 2*e(k-1) + e(k-2)]
+  22:Core/Src/Utility.cpp **** 
+  23:Core/Src/Utility.cpp **** void IncreasementPID::computeDelta(float _target, float _current)
+  24:Core/Src/Utility.cpp **** {
+ 119              	 .loc 1 24 1 is_stmt 1 view-0
+ 120              	 .cfi_startproc
+ 121              	 
+ 122              	 
+ 123              	 
+  25:Core/Src/Utility.cpp ****     this->deltaOutput = kTP * (_target - this->t1) + kMP * (_current - this->m1) 
+ 124              	 .loc 1 25 5 view .LVU24
+ 125              	 .loc 1 25 78 is_stmt 0 view .LVU25
+ 126 0000 90ED056A 	 vldr.32 s12,[r0,#20]
+ 127              	 .loc 1 25 48 view .LVU26
+ 128 0004 90ED047A 	 vldr.32 s14,[r0,#16]
+ 129              	 .loc 1 25 58 view .LVU27
+ 130 0008 D0ED016A 	 vldr.32 s13,[r0,#4]
+ 131              	 .loc 1 25 52 view .LVU28
+ 132 000c D0ED004A 	 vldr.32 s9,[r0]
+  26:Core/Src/Utility.cpp ****         + kI * (_target - _current) + kD * ((_target - _current) - 2 * (this->t1 - this->m1) + this
+ 133              	 .loc 1 26 9 view .LVU29
+ 134 0010 90ED024A 	 vldr.32 s8,[r0,#8]
+  27:Core/Src/Utility.cpp ****     
+  28:Core/Src/Utility.cpp ****     this->e2 = this->t1 - this->m1;
+  29:Core/Src/Utility.cpp ****     this->t1 = _target;
+  30:Core/Src/Utility.cpp ****     this->m1 = _current;
+  31:Core/Src/Utility.cpp **** 
+  32:Core/Src/Utility.cpp ****     if(clamp_enabled)
+ 135              	 .loc 1 32 5 view .LVU30
+ 136 0014 90F82830 	 ldrb r3,[r0,#40]
+  29:Core/Src/Utility.cpp ****     this->m1 = _current;
+ 137              	 .loc 1 29 14 view .LVU31
+ 138 0018 80ED040A 	 vstr.32 s0,[r0,#16]
+  25:Core/Src/Utility.cpp ****         + kI * (_target - _current) + kD * ((_target - _current) - 2 * (this->t1 - this->m1) + this
+ 139              	 .loc 1 25 70 view .LVU32
+ 140 001c 70EEC67A 	 vsub.f32 s15,s1,s12
+  25:Core/Src/Utility.cpp ****         + kI * (_target - _current) + kD * ((_target - _current) - 2 * (this->t1 - this->m1) + this
+ARM GAS   			page 4
+
+
+ 141              	 .loc 1 25 40 view .LVU33
+ 142 0020 30EE475A 	 vsub.f32 s10,s0,s14
+  25:Core/Src/Utility.cpp ****         + kI * (_target - _current) + kD * ((_target - _current) - 2 * (this->t1 - this->m1) + this
+ 143              	 .loc 1 25 58 view .LVU34
+ 144 0024 67EEA67A 	 vmul.f32 s15,s15,s13
+  26:Core/Src/Utility.cpp ****     
+ 145              	 .loc 1 26 25 view .LVU35
+ 146 0028 70EE605A 	 vsub.f32 s11,s0,s1
+  25:Core/Src/Utility.cpp ****         + kI * (_target - _current) + kD * ((_target - _current) - 2 * (this->t1 - this->m1) + this
+ 147              	 .loc 1 25 52 view .LVU36
+ 148 002c E4EE857A 	 vfma.f32 s15,s9,s10
+  26:Core/Src/Utility.cpp ****     
+ 149              	 .loc 1 26 94 view .LVU37
+ 150 0030 D0ED066A 	 vldr.32 s13,[r0,#24]
+  30:Core/Src/Utility.cpp **** 
+ 151              	 .loc 1 30 14 view .LVU38
+ 152 0034 C0ED050A 	 vstr.32 s1,[r0,#20]
+  26:Core/Src/Utility.cpp ****     
+ 153              	 .loc 1 26 82 view .LVU39
+ 154 0038 76EE474A 	 vsub.f32 s9,s12,s14
+  26:Core/Src/Utility.cpp ****     
+ 155              	 .loc 1 26 94 view .LVU40
+ 156 003c 75EEA66A 	 vadd.f32 s13,s11,s13
+ 157 0040 B0EE005A 	 vmov.f32 s10,#2.0e+0
+  26:Core/Src/Utility.cpp ****     
+ 158              	 .loc 1 26 9 view .LVU41
+ 159 0044 E4EE257A 	 vfma.f32 s15,s8,s11
+  26:Core/Src/Utility.cpp ****     
+ 160              	 .loc 1 26 94 view .LVU42
+ 161 0048 E4EE856A 	 vfma.f32 s13,s9,s10
+  26:Core/Src/Utility.cpp ****     
+ 162              	 .loc 1 26 39 view .LVU43
+ 163 004c D0ED035A 	 vldr.32 s11,[r0,#12]
+  26:Core/Src/Utility.cpp ****     
+ 164              	 .loc 1 26 37 view .LVU44
+ 165 0050 E5EEA67A 	 vfma.f32 s15,s11,s13
+  28:Core/Src/Utility.cpp ****     this->t1 = _target;
+ 166              	 .loc 1 28 25 view .LVU45
+ 167 0054 37EE467A 	 vsub.f32 s14,s14,s12
+  25:Core/Src/Utility.cpp ****         + kI * (_target - _current) + kD * ((_target - _current) - 2 * (this->t1 - this->m1) + this
+ 168              	 .loc 1 25 23 view .LVU46
+ 169 0058 C0ED077A 	 vstr.32 s15,[r0,#28]
+  28:Core/Src/Utility.cpp ****     this->t1 = _target;
+ 170              	 .loc 1 28 5 is_stmt 1 view .LVU47
+  29:Core/Src/Utility.cpp ****     this->m1 = _current;
+ 171              	 .loc 1 29 5 view .LVU48
+  30:Core/Src/Utility.cpp **** 
+ 172              	 .loc 1 30 5 view .LVU49
+ 173              	 .loc 1 32 5 view .LVU50
+  28:Core/Src/Utility.cpp ****     this->t1 = _target;
+ 174              	 .loc 1 28 14 is_stmt 0 view .LVU51
+ 175 005c 80ED067A 	 vstr.32 s14,[r0,#24]
+ 176              	 .loc 1 32 5 view .LVU52
+ 177 0060 9BB1     	 cbz r3,.L5
+  33:Core/Src/Utility.cpp ****         this->deltaOutput = M_CLAMP(this->deltaOutput, clamp_lower, clamp_upper);//输出限幅
+ 178              	 .loc 1 33 9 is_stmt 1 view .LVU53
+ 179              	 .loc 1 33 29 is_stmt 0 view .LVU54
+ARM GAS   			page 5
+
+
+ 180 0062 90ED097A 	 vldr.32 s14,[r0,#36]
+ 181              	 .loc 1 33 29 discriminator 4 view .LVU55
+ 182 0066 D0ED086A 	 vldr.32 s13,[r0,#32]
+ 183              	 .loc 1 33 29 view .LVU56
+ 184 006a B4EEE77A 	 vcmpe.f32 s14,s15
+ 185 006e F1EE10FA 	 vmrs APSR_nzcv,FPSCR
+ 186 0072 A8BF     	 it ge
+ 187 0074 F0EE477A 	 vmovge.f32 s15,s14
+ 188              	 .loc 1 33 29 discriminator 4 view .LVU57
+ 189 0078 F4EEE67A 	 vcmpe.f32 s15,s13
+ 190 007c F1EE10FA 	 vmrs APSR_nzcv,FPSCR
+ 191 0080 88BF     	 it hi
+ 192 0082 F0EE667A 	 vmovhi.f32 s15,s13
+ 193              	 .loc 1 33 27 discriminator 12 view .LVU58
+ 194 0086 C0ED077A 	 vstr.32 s15,[r0,#28]
+ 195              	.L5:
+  34:Core/Src/Utility.cpp **** 
+  35:Core/Src/Utility.cpp **** }
+ 196              	 .loc 1 35 1 view .LVU59
+ 197 008a 7047     	 bx lr
+ 198              	 .cfi_endproc
+ 199              	.LFE367:
+ 201              	 .section .text._ZN15IncreasementPID10resetErrorEv,"ax",%progbits
+ 202              	 .align 1
+ 203              	 .p2align 2,,3
+ 204              	 .global _ZN15IncreasementPID10resetErrorEv
+ 205              	 .syntax unified
+ 206              	 .thumb
+ 207              	 .thumb_func
+ 209              	_ZN15IncreasementPID10resetErrorEv:
+ 210              	.LVL4:
+ 211              	.LFB368:
+  36:Core/Src/Utility.cpp **** void IncreasementPID::resetError()
+  37:Core/Src/Utility.cpp **** {
+ 212              	 .loc 1 37 1 is_stmt 1 view-0
+ 213              	 .cfi_startproc
+ 214              	 
+ 215              	 
+ 216              	 
+  38:Core/Src/Utility.cpp ****     this->deltaOutput = 0.0f;
+ 217              	 .loc 1 38 5 view .LVU61
+ 218              	 .loc 1 38 23 is_stmt 0 view .LVU62
+ 219 0000 0023     	 movs r3,#0
+ 220 0002 C361     	 str r3,[r0,#28]
+  39:Core/Src/Utility.cpp ****     this->t1 = 0.0f;
+ 221              	 .loc 1 39 5 is_stmt 1 view .LVU63
+ 222              	 .loc 1 39 14 is_stmt 0 view .LVU64
+ 223 0004 0361     	 str r3,[r0,#16]
+  40:Core/Src/Utility.cpp ****     this->m1 = 0.0f;
+ 224              	 .loc 1 40 5 is_stmt 1 view .LVU65
+ 225              	 .loc 1 40 14 is_stmt 0 view .LVU66
+ 226 0006 4361     	 str r3,[r0,#20]
+  41:Core/Src/Utility.cpp ****     this->e2 = 0.0f;
+ 227              	 .loc 1 41 5 is_stmt 1 view .LVU67
+ 228              	 .loc 1 41 14 is_stmt 0 view .LVU68
+ 229 0008 8361     	 str r3,[r0,#24]
+  42:Core/Src/Utility.cpp **** }
+ARM GAS   			page 6
+
+
+ 230              	 .loc 1 42 1 view .LVU69
+ 231 000a 7047     	 bx lr
+ 232              	 .cfi_endproc
+ 233              	.LFE368:
+ 235              	 .section .text._ZN15IncreasementPID9getOutputEv,"ax",%progbits
+ 236              	 .align 1
+ 237              	 .p2align 2,,3
+ 238              	 .global _ZN15IncreasementPID9getOutputEv
+ 239              	 .syntax unified
+ 240              	 .thumb
+ 241              	 .thumb_func
+ 243              	_ZN15IncreasementPID9getOutputEv:
+ 244              	.LVL5:
+ 245              	.LFB369:
+  43:Core/Src/Utility.cpp **** 
+  44:Core/Src/Utility.cpp **** float IncreasementPID::getOutput()
+  45:Core/Src/Utility.cpp **** {
+ 246              	 .loc 1 45 1 is_stmt 1 view-0
+ 247              	 .cfi_startproc
+ 248              	 
+ 249              	 
+ 250              	 
+  46:Core/Src/Utility.cpp ****     return this->deltaOutput;
+ 251              	 .loc 1 46 5 view .LVU71
+  47:Core/Src/Utility.cpp **** }
+ 252              	 .loc 1 47 1 is_stmt 0 view .LVU72
+ 253 0000 90ED070A 	 vldr.32 s0,[r0,#28]
+ 254 0004 7047     	 bx lr
+ 255              	 .cfi_endproc
+ 256              	.LFE369:
+ 258 0006 00BF     	 .text
+ 259              	.Letext0:
+ 260              	 .file 2 "Core/Inc/Utility.hpp"
+ARM GAS   			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Utility.cpp
+    {standard input}:19     .text._ZN15IncreasementPID12setParameterEffff:00000000 $t
+    {standard input}:26     .text._ZN15IncreasementPID12setParameterEffff:00000000 _ZN15IncreasementPID12setParameterEffff
+    {standard input}:52     .text._ZN15IncreasementPID8setClampEff:00000000 $t
+    {standard input}:59     .text._ZN15IncreasementPID8setClampEff:00000000 _ZN15IncreasementPID8setClampEff
+    {standard input}:84     .text._ZN15IncreasementPID12disableClampEv:00000000 $t
+    {standard input}:91     .text._ZN15IncreasementPID12disableClampEv:00000000 _ZN15IncreasementPID12disableClampEv
+    {standard input}:109    .text._ZN15IncreasementPID12computeDeltaEff:00000000 $t
+    {standard input}:116    .text._ZN15IncreasementPID12computeDeltaEff:00000000 _ZN15IncreasementPID12computeDeltaEff
+    {standard input}:202    .text._ZN15IncreasementPID10resetErrorEv:00000000 $t
+    {standard input}:209    .text._ZN15IncreasementPID10resetErrorEv:00000000 _ZN15IncreasementPID10resetErrorEv
+    {standard input}:236    .text._ZN15IncreasementPID9getOutputEv:00000000 $t
+    {standard input}:243    .text._ZN15IncreasementPID9getOutputEv:00000000 _ZN15IncreasementPID9getOutputEv
+                           .group:00000000 wm4.0.b31bb6d3ef0245c0baa6a03aaab3dc6e
+                           .group:00000000 wm4.stm32g4xx_hal_conf.h.23.29f848e16b8f40ab9160f466e02fbac5
+                           .group:00000000 wm4.stm32g4xx.h.38.4ce5d67cecf3db23972af81b516b937b
+                           .group:00000000 wm4.stm32g474xx.h.34.0f14ed7ce45f8c3c7c55af7520d7efa5
+                           .group:00000000 wm4.stdint.h.4.659be5aa44c4ab4eb7c7cc2b24d8ceee
+                           .group:00000000 wm4._newlib_version.h.4.0eb654b64686e2bd29646258853f6c22
+                           .group:00000000 wm4.features.h.33.d554620bb17bd3b714c3fb5c268772bc
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.cmsis_version.h.32.46e8eccfa2cfeaae11d008bb2823a3ed
+                           .group:00000000 wm4.core_cm4.h.66.e4ff136c4a17abc46741866f64f8e729
+                           .group:00000000 wm4.cmsis_gcc.h.26.78077cef1206e937f7b56043ffca496a
+                           .group:00000000 wm4.core_cm4.h.174.701851045f388571f9bdeebf2557adc2
+                           .group:00000000 wm4.mpu_armv7.h.32.4049752bb5792d4e15357775e9506cfc
+                           .group:00000000 wm4.stm32g474xx.h.714.40df4d5d8bd1a3a0e2dcb49e18b09038
+                           .group:00000000 wm4.stm32g4xx.h.158.aa4340ed3b15fb0d4b1741cf5ce96563
+                           .group:00000000 wm4.stm32_hal_legacy.h.22.e1e932ae083ad1562e3b1af87ae47999
+                           .group:00000000 wm4.stddef.h.39.6a366d794a51dd51221993fa348b00b3
+                           .group:00000000 wm4.stm32g4xx_hal_def.h.57.460ac21f0caebde175d7222cb23afe15
+                           .group:00000000 wm4.stm32g4xx_hal_rcc.h.135.8d28bdf720f4165758e115c83d05a7c2
+                           .group:00000000 wm4.stm32g4xx_hal_rcc_ex.h.20.a381de89af88802207f549f948fabbc4
+                           .group:00000000 wm4.stm32g4xx_hal_gpio.h.21.2ca30689d7a5ad939e06f5298d557243
+                           .group:00000000 wm4.stm32g4xx_hal_gpio_ex.h.22.1b7da6fc7615b2341724123ae8e461d9
+                           .group:00000000 wm4.stm32g4xx_hal_dma.h.21.2e23b0d56595a6b838cda841e78b2cf2
+                           .group:00000000 wm4.stm32g4xx_hal_dma_ex.h.21.93a1fe56678997ad72754076070f4a0d
+                           .group:00000000 wm4.stm32g4xx_hal_dma.h.803.dd88ea57b632f588d556f066658ac8d8
+                           .group:00000000 wm4.stm32g4xx_hal_cortex.h.20.1ad77fb6b4fc679887cb0a980ea44a7a
+                           .group:00000000 wm4.stm32g4xx_ll_adc.h.21.8052bcc80fb264686ac0eb0df096b4eb
+                           .group:00000000 wm4.stm32g4xx_hal_adc.h.441.b9143c2a34e1e7389f3042e2226178dc
+                           .group:00000000 wm4.stm32g4xx_hal_adc_ex.h.21.bf5e513b0c782ac53971b6599734b8c4
+                           .group:00000000 wm4.stm32g4xx_ll_exti.h.21.3148a6980741767f71761eb445f346e9
+                           .group:00000000 wm4.stm32g4xx_hal_comp.h.74.993852ecfac8b19c902e64e33c61511c
+                           .group:00000000 wm4.stm32g4xx_hal_dac.h.21.db627068e52007634376a4c972c5d419
+                           .group:00000000 wm4.stm32g4xx_hal_dac_ex.h.21.3725e9b2e9e08a08e2a598b2d2f18a92
+                           .group:00000000 wm4.stm32g4xx_hal_exti.h.21.723acd8e98480aae634680651af4eb2a
+                           .group:00000000 wm4.stm32g4xx_hal_fdcan.h.21.7e3b4b48cfc4adf8b669f7e4b16ec2a0
+                           .group:00000000 wm4.stm32g4xx_hal_flash.h.20.d5eb04c7abbe2eb79b40a04b3414a774
+                           .group:00000000 wm4.stm32g4xx_hal_flash.h.868.06dd2f9ca2f40ac164951ad647480079
+                           .group:00000000 wm4.stm32g4xx_hal_hrtim.h.21.5bb9cc2116aa63503a68d53ce84fbb8c
+                           .group:00000000 wm4.stm32g4xx_hal_opamp.h.21.0de86917e81e98dccfa125838db59b66
+                           .group:00000000 wm4.stm32g4xx_hal_pwr.h.21.9b149e14c0ecf58cee46e8fb7f654b77
+ARM GAS   			page 8
+
+
+                           .group:00000000 wm4.stm32g4xx_hal_pwr_ex.h.21.32206cbbd2cbec024b8600a98cfa3df7
+                           .group:00000000 wm4.stm32g4xx_hal_tim.h.21.48998681c932026239437f6645b6b47f
+                           .group:00000000 wm4.stm32g4xx_hal_tim_ex.h.21.931c546f492dcdbc9ac587da38712500
+                           .group:00000000 wm4.stm32g4xx_hal.h.49.77ad48c45d6a59e5132483403b560be0
+                           .group:00000000 wm4.main.h.60.b5d5fcf8e20642920eaa5e2c93fc5ae7
+                           .group:00000000 wm4.Config.hpp.7.b2527e13130082181addaa6c3fd0ae12
+                           .group:00000000 wm4.Utility.hpp.9.378999a7136498b1fcaa268e05c8cfe4
+
+NO UNDEFINED SYMBOLS

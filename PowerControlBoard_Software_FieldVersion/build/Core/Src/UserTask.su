@@ -1,0 +1,3 @@
+Core/Src/UserTask.cpp:21:6:void tickCallback(TIM_HandleTypeDef*)	8	static
+Core/Src/UserTask.cpp:151:6:void init()	8	static
+Core/Src/UserTask.cpp:200:10:void systemStart()	8	static

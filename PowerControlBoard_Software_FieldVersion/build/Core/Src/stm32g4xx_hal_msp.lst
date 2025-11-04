@@ -1,0 +1,289 @@
+ARM GAS   			page 1
+
+
+   1              	 .cpu cortex-m4
+   2              	 .arch armv7e-m
+   3              	 .fpu fpv4-sp-d16
+   4              	 .eabi_attribute 27,1
+   5              	 .eabi_attribute 28,1
+   6              	 .eabi_attribute 23,1
+   7              	 .eabi_attribute 24,1
+   8              	 .eabi_attribute 25,1
+   9              	 .eabi_attribute 26,1
+  10              	 .eabi_attribute 30,2
+  11              	 .eabi_attribute 34,1
+  12              	 .eabi_attribute 18,4
+  13              	 .file "stm32g4xx_hal_msp.c"
+  14              	 .text
+  15              	.Ltext0:
+  16              	 .cfi_sections .debug_frame
+  17              	 .file 1 "Core/Src/stm32g4xx_hal_msp.c"
+  18              	 .section .text.HAL_MspInit,"ax",%progbits
+  19              	 .align 1
+  20              	 .p2align 2,,3
+  21              	 .global HAL_MspInit
+  22              	 .syntax unified
+  23              	 .thumb
+  24              	 .thumb_func
+  26              	HAL_MspInit:
+  27              	.LFB361:
+   1:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN Header */
+   2:Core/Src/stm32g4xx_hal_msp.c **** /**
+   3:Core/Src/stm32g4xx_hal_msp.c ****   ******************************************************************************
+   4:Core/Src/stm32g4xx_hal_msp.c ****   * @file         stm32g4xx_hal_msp.c
+   5:Core/Src/stm32g4xx_hal_msp.c ****   * @brief        This file provides code for the MSP Initialization
+   6:Core/Src/stm32g4xx_hal_msp.c ****   *               and de-Initialization codes.
+   7:Core/Src/stm32g4xx_hal_msp.c ****   ******************************************************************************
+   8:Core/Src/stm32g4xx_hal_msp.c ****   * @attention
+   9:Core/Src/stm32g4xx_hal_msp.c ****   *
+  10:Core/Src/stm32g4xx_hal_msp.c ****   * Copyright (c) 2025 STMicroelectronics.
+  11:Core/Src/stm32g4xx_hal_msp.c ****   * All rights reserved.
+  12:Core/Src/stm32g4xx_hal_msp.c ****   *
+  13:Core/Src/stm32g4xx_hal_msp.c ****   * This software is licensed under terms that can be found in the LICENSE file
+  14:Core/Src/stm32g4xx_hal_msp.c ****   * in the root directory of this software component.
+  15:Core/Src/stm32g4xx_hal_msp.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  16:Core/Src/stm32g4xx_hal_msp.c ****   *
+  17:Core/Src/stm32g4xx_hal_msp.c ****   ******************************************************************************
+  18:Core/Src/stm32g4xx_hal_msp.c ****   */
+  19:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END Header */
+  20:Core/Src/stm32g4xx_hal_msp.c **** 
+  21:Core/Src/stm32g4xx_hal_msp.c **** /* Includes ------------------------------------------------------------------*/
+  22:Core/Src/stm32g4xx_hal_msp.c **** #include "main.h"
+  23:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN Includes */
+  24:Core/Src/stm32g4xx_hal_msp.c **** 
+  25:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END Includes */
+  26:Core/Src/stm32g4xx_hal_msp.c **** 
+  27:Core/Src/stm32g4xx_hal_msp.c **** /* Private typedef -----------------------------------------------------------*/
+  28:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN TD */
+  29:Core/Src/stm32g4xx_hal_msp.c **** 
+  30:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END TD */
+  31:Core/Src/stm32g4xx_hal_msp.c **** 
+ARM GAS   			page 2
+
+
+  32:Core/Src/stm32g4xx_hal_msp.c **** /* Private define ------------------------------------------------------------*/
+  33:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN Define */
+  34:Core/Src/stm32g4xx_hal_msp.c **** 
+  35:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END Define */
+  36:Core/Src/stm32g4xx_hal_msp.c **** 
+  37:Core/Src/stm32g4xx_hal_msp.c **** /* Private macro -------------------------------------------------------------*/
+  38:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN Macro */
+  39:Core/Src/stm32g4xx_hal_msp.c **** 
+  40:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END Macro */
+  41:Core/Src/stm32g4xx_hal_msp.c **** 
+  42:Core/Src/stm32g4xx_hal_msp.c **** /* Private variables ---------------------------------------------------------*/
+  43:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN PV */
+  44:Core/Src/stm32g4xx_hal_msp.c **** 
+  45:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END PV */
+  46:Core/Src/stm32g4xx_hal_msp.c **** 
+  47:Core/Src/stm32g4xx_hal_msp.c **** /* Private function prototypes -----------------------------------------------*/
+  48:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN PFP */
+  49:Core/Src/stm32g4xx_hal_msp.c **** 
+  50:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END PFP */
+  51:Core/Src/stm32g4xx_hal_msp.c **** 
+  52:Core/Src/stm32g4xx_hal_msp.c **** /* External functions --------------------------------------------------------*/
+  53:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN ExternalFunctions */
+  54:Core/Src/stm32g4xx_hal_msp.c **** 
+  55:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END ExternalFunctions */
+  56:Core/Src/stm32g4xx_hal_msp.c **** 
+  57:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE BEGIN 0 */
+  58:Core/Src/stm32g4xx_hal_msp.c **** 
+  59:Core/Src/stm32g4xx_hal_msp.c **** /* USER CODE END 0 */
+  60:Core/Src/stm32g4xx_hal_msp.c **** /**
+  61:Core/Src/stm32g4xx_hal_msp.c ****   * Initializes the Global MSP.
+  62:Core/Src/stm32g4xx_hal_msp.c ****   */
+  63:Core/Src/stm32g4xx_hal_msp.c **** void HAL_MspInit(void)
+  64:Core/Src/stm32g4xx_hal_msp.c **** {
+  28              	 .loc 1 64 1 view-0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  65:Core/Src/stm32g4xx_hal_msp.c **** 
+  66:Core/Src/stm32g4xx_hal_msp.c ****   /* USER CODE BEGIN MspInit 0 */
+  67:Core/Src/stm32g4xx_hal_msp.c **** 
+  68:Core/Src/stm32g4xx_hal_msp.c ****   /* USER CODE END MspInit 0 */
+  69:Core/Src/stm32g4xx_hal_msp.c **** 
+  70:Core/Src/stm32g4xx_hal_msp.c ****   __HAL_RCC_SYSCFG_CLK_ENABLE();
+  32              	 .loc 1 70 3 view .LVU1
+  33              	.LBB2:
+  34              	 .loc 1 70 3 view .LVU2
+  35              	 .loc 1 70 3 view .LVU3
+  36              	.LBE2:
+  64:Core/Src/stm32g4xx_hal_msp.c **** 
+  37              	 .loc 1 64 1 is_stmt 0 view .LVU4
+  38 0000 00B5     	 push {lr}
+  39              	 .cfi_def_cfa_offset 4
+  40              	 .cfi_offset 14,-4
+  41              	.LBB3:
+  42              	 .loc 1 70 3 view .LVU5
+  43 0002 104B     	 ldr r3,.L4
+  44 0004 1A6E     	 ldr r2,[r3,#96]
+ARM GAS   			page 3
+
+
+  45 0006 42F00102 	 orr r2,r2,#1
+  46              	.LBE3:
+  64:Core/Src/stm32g4xx_hal_msp.c **** 
+  47              	 .loc 1 64 1 view .LVU6
+  48 000a 83B0     	 sub sp,sp,#12
+  49              	 .cfi_def_cfa_offset 16
+  50              	.LBB4:
+  51              	 .loc 1 70 3 view .LVU7
+  52 000c 1A66     	 str r2,[r3,#96]
+  53              	 .loc 1 70 3 is_stmt 1 view .LVU8
+  54 000e 1A6E     	 ldr r2,[r3,#96]
+  55 0010 02F00102 	 and r2,r2,#1
+  56 0014 0092     	 str r2,[sp]
+  57              	 .loc 1 70 3 view .LVU9
+  58 0016 009A     	 ldr r2,[sp]
+  59              	.LBE4:
+  60              	 .loc 1 70 3 view .LVU10
+  71:Core/Src/stm32g4xx_hal_msp.c ****   __HAL_RCC_PWR_CLK_ENABLE();
+  61              	 .loc 1 71 3 view .LVU11
+  62              	.LBB5:
+  63              	 .loc 1 71 3 view .LVU12
+  64              	 .loc 1 71 3 view .LVU13
+  65 0018 9A6D     	 ldr r2,[r3,#88]
+  66 001a 42F08052 	 orr r2,r2,#268435456
+  67 001e 9A65     	 str r2,[r3,#88]
+  68              	 .loc 1 71 3 view .LVU14
+  69 0020 9B6D     	 ldr r3,[r3,#88]
+  70 0022 03F08053 	 and r3,r3,#268435456
+  71 0026 0193     	 str r3,[sp,#4]
+  72              	 .loc 1 71 3 view .LVU15
+  73              	.LBE5:
+  72:Core/Src/stm32g4xx_hal_msp.c **** 
+  73:Core/Src/stm32g4xx_hal_msp.c ****   /* System interrupt init*/
+  74:Core/Src/stm32g4xx_hal_msp.c **** 
+  75:Core/Src/stm32g4xx_hal_msp.c ****   /** Configure the internal voltage reference buffer voltage scale
+  76:Core/Src/stm32g4xx_hal_msp.c ****   */
+  77:Core/Src/stm32g4xx_hal_msp.c ****   HAL_SYSCFG_VREFBUF_VoltageScalingConfig(SYSCFG_VREFBUF_VOLTAGE_SCALE2);
+  74              	 .loc 1 77 3 is_stmt 0 view .LVU16
+  75 0028 2020     	 movs r0,#32
+  76              	.LBB6:
+  71:Core/Src/stm32g4xx_hal_msp.c ****   __HAL_RCC_PWR_CLK_ENABLE();
+  77              	 .loc 1 71 3 view .LVU17
+  78 002a 019B     	 ldr r3,[sp,#4]
+  79              	.LBE6:
+  71:Core/Src/stm32g4xx_hal_msp.c ****   __HAL_RCC_PWR_CLK_ENABLE();
+  80              	 .loc 1 71 3 is_stmt 1 view .LVU18
+  81              	 .loc 1 77 3 view .LVU19
+  82 002c FFF7FEFF 	 bl HAL_SYSCFG_VREFBUF_VoltageScalingConfig
+  83              	.LVL0:
+  78:Core/Src/stm32g4xx_hal_msp.c **** 
+  79:Core/Src/stm32g4xx_hal_msp.c ****   /** Enable the Internal Voltage Reference buffer
+  80:Core/Src/stm32g4xx_hal_msp.c ****   */
+  81:Core/Src/stm32g4xx_hal_msp.c ****   HAL_SYSCFG_EnableVREFBUF();
+  84              	 .loc 1 81 3 view .LVU20
+  85 0030 FFF7FEFF 	 bl HAL_SYSCFG_EnableVREFBUF
+  86              	.LVL1:
+  82:Core/Src/stm32g4xx_hal_msp.c **** 
+ARM GAS   			page 4
+
+
+  83:Core/Src/stm32g4xx_hal_msp.c ****   /** Configure the internal voltage reference buffer high impedance mode
+  84:Core/Src/stm32g4xx_hal_msp.c ****   */
+  85:Core/Src/stm32g4xx_hal_msp.c ****   HAL_SYSCFG_VREFBUF_HighImpedanceConfig(SYSCFG_VREFBUF_HIGH_IMPEDANCE_DISABLE);
+  87              	 .loc 1 85 3 view .LVU21
+  88 0034 0020     	 movs r0,#0
+  89 0036 FFF7FEFF 	 bl HAL_SYSCFG_VREFBUF_HighImpedanceConfig
+  90              	.LVL2:
+  86:Core/Src/stm32g4xx_hal_msp.c **** 
+  87:Core/Src/stm32g4xx_hal_msp.c ****   /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  88:Core/Src/stm32g4xx_hal_msp.c ****   */
+  89:Core/Src/stm32g4xx_hal_msp.c ****   HAL_PWREx_DisableUCPDDeadBattery();
+  91              	 .loc 1 89 3 view .LVU22
+  90:Core/Src/stm32g4xx_hal_msp.c **** 
+  91:Core/Src/stm32g4xx_hal_msp.c ****   /* USER CODE BEGIN MspInit 1 */
+  92:Core/Src/stm32g4xx_hal_msp.c **** 
+  93:Core/Src/stm32g4xx_hal_msp.c ****   /* USER CODE END MspInit 1 */
+  94:Core/Src/stm32g4xx_hal_msp.c **** }
+  92              	 .loc 1 94 1 is_stmt 0 view .LVU23
+  93 003a 03B0     	 add sp,sp,#12
+  94              	 .cfi_def_cfa_offset 4
+  95              	 
+  96 003c 5DF804EB 	 ldr lr,[sp],#4
+  97              	 .cfi_restore 14
+  98              	 .cfi_def_cfa_offset 0
+  89:Core/Src/stm32g4xx_hal_msp.c **** 
+  99              	 .loc 1 89 3 view .LVU24
+ 100 0040 FFF7FEBF 	 b HAL_PWREx_DisableUCPDDeadBattery
+ 101              	.LVL3:
+ 102              	.L5:
+ 103              	 .align 2
+ 104              	.L4:
+ 105 0044 00100240 	 .word 1073876992
+ 106              	 .cfi_endproc
+ 107              	.LFE361:
+ 109              	 .text
+ 110              	.Letext0:
+ 111              	 .file 2 "D:/msys2/mingw64/arm-none-eabi/include/machine/_default_types.h"
+ 112              	 .file 3 "D:/msys2/mingw64/arm-none-eabi/include/sys/_stdint.h"
+ 113              	 .file 4 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 114              	 .file 5 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 115              	 .file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
+ 116              	 .file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h"
+ARM GAS   			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32g4xx_hal_msp.c
+    {standard input}:19     .text.HAL_MspInit:00000000 $t
+    {standard input}:26     .text.HAL_MspInit:00000000 HAL_MspInit
+    {standard input}:105    .text.HAL_MspInit:00000044 $d
+                           .group:00000000 wm4.0.0a7385083264a66d46f50bd0ca9333d7
+                           .group:00000000 wm4.stm32g4xx_hal_conf.h.23.29f848e16b8f40ab9160f466e02fbac5
+                           .group:00000000 wm4.stm32g4xx.h.38.4ce5d67cecf3db23972af81b516b937b
+                           .group:00000000 wm4.stm32g474xx.h.34.0f14ed7ce45f8c3c7c55af7520d7efa5
+                           .group:00000000 wm4._newlib_version.h.4.0eb654b64686e2bd29646258853f6c22
+                           .group:00000000 wm4.features.h.33.d554620bb17bd3b714c3fb5c268772bc
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.cmsis_version.h.32.46e8eccfa2cfeaae11d008bb2823a3ed
+                           .group:00000000 wm4.core_cm4.h.66.e4ff136c4a17abc46741866f64f8e729
+                           .group:00000000 wm4.cmsis_gcc.h.26.78077cef1206e937f7b56043ffca496a
+                           .group:00000000 wm4.core_cm4.h.174.fcddd62df80231752fa39eb9b61dadfe
+                           .group:00000000 wm4.mpu_armv7.h.32.4049752bb5792d4e15357775e9506cfc
+                           .group:00000000 wm4.stm32g474xx.h.714.40df4d5d8bd1a3a0e2dcb49e18b09038
+                           .group:00000000 wm4.stm32g4xx.h.158.aa4340ed3b15fb0d4b1741cf5ce96563
+                           .group:00000000 wm4.stm32_hal_legacy.h.22.e1e932ae083ad1562e3b1af87ae47999
+                           .group:00000000 wm4.stddef.h.39.0dc9006b34572d4d9cae4c8b422c4971
+                           .group:00000000 wm4.stm32g4xx_hal_def.h.57.460ac21f0caebde175d7222cb23afe15
+                           .group:00000000 wm4.stm32g4xx_hal_rcc.h.135.8d28bdf720f4165758e115c83d05a7c2
+                           .group:00000000 wm4.stm32g4xx_hal_rcc_ex.h.20.a381de89af88802207f549f948fabbc4
+                           .group:00000000 wm4.stm32g4xx_hal_gpio.h.21.2ca30689d7a5ad939e06f5298d557243
+                           .group:00000000 wm4.stm32g4xx_hal_gpio_ex.h.22.1b7da6fc7615b2341724123ae8e461d9
+                           .group:00000000 wm4.stm32g4xx_hal_dma.h.21.2e23b0d56595a6b838cda841e78b2cf2
+                           .group:00000000 wm4.stm32g4xx_hal_dma_ex.h.21.93a1fe56678997ad72754076070f4a0d
+                           .group:00000000 wm4.stm32g4xx_hal_dma.h.803.dd88ea57b632f588d556f066658ac8d8
+                           .group:00000000 wm4.stm32g4xx_hal_cortex.h.20.1ad77fb6b4fc679887cb0a980ea44a7a
+                           .group:00000000 wm4.stm32g4xx_ll_adc.h.21.8052bcc80fb264686ac0eb0df096b4eb
+                           .group:00000000 wm4.stm32g4xx_hal_adc.h.441.b9143c2a34e1e7389f3042e2226178dc
+                           .group:00000000 wm4.stm32g4xx_hal_adc_ex.h.21.bf5e513b0c782ac53971b6599734b8c4
+                           .group:00000000 wm4.stm32g4xx_ll_exti.h.21.3148a6980741767f71761eb445f346e9
+                           .group:00000000 wm4.stm32g4xx_hal_comp.h.74.993852ecfac8b19c902e64e33c61511c
+                           .group:00000000 wm4.stm32g4xx_hal_dac.h.21.db627068e52007634376a4c972c5d419
+                           .group:00000000 wm4.stm32g4xx_hal_dac_ex.h.21.3725e9b2e9e08a08e2a598b2d2f18a92
+                           .group:00000000 wm4.stm32g4xx_hal_exti.h.21.723acd8e98480aae634680651af4eb2a
+                           .group:00000000 wm4.stm32g4xx_hal_fdcan.h.21.7e3b4b48cfc4adf8b669f7e4b16ec2a0
+                           .group:00000000 wm4.stm32g4xx_hal_flash.h.20.d5eb04c7abbe2eb79b40a04b3414a774
+                           .group:00000000 wm4.stm32g4xx_hal_flash.h.868.06dd2f9ca2f40ac164951ad647480079
+                           .group:00000000 wm4.stm32g4xx_hal_hrtim.h.21.5bb9cc2116aa63503a68d53ce84fbb8c
+                           .group:00000000 wm4.stm32g4xx_hal_opamp.h.21.0de86917e81e98dccfa125838db59b66
+                           .group:00000000 wm4.stm32g4xx_hal_pwr.h.21.9b149e14c0ecf58cee46e8fb7f654b77
+                           .group:00000000 wm4.stm32g4xx_hal_pwr_ex.h.21.32206cbbd2cbec024b8600a98cfa3df7
+                           .group:00000000 wm4.stm32g4xx_hal_tim.h.21.48998681c932026239437f6645b6b47f
+                           .group:00000000 wm4.stm32g4xx_hal_tim_ex.h.21.931c546f492dcdbc9ac587da38712500
+                           .group:00000000 wm4.stm32g4xx_hal.h.49.77ad48c45d6a59e5132483403b560be0
+                           .group:00000000 wm4.main.h.60.b5d5fcf8e20642920eaa5e2c93fc5ae7
+
+UNDEFINED SYMBOLS
+HAL_SYSCFG_VREFBUF_VoltageScalingConfig
+HAL_SYSCFG_EnableVREFBUF
+HAL_SYSCFG_VREFBUF_HighImpedanceConfig
+ARM GAS   			page 6
+
+
+HAL_PWREx_DisableUCPDDeadBattery

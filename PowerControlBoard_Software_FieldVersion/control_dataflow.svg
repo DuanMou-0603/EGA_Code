@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860">
+  <defs>
+    <style>
+      .box { fill:#f9fbff; stroke:#2f4a77; stroke-width:2; rx:10; ry:10; }
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; fill:#1c2a3a; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 14px; fill:#1c2a3a; }
+      .small { font-family: Arial, Helvetica, sans-serif; font-size: 12px; fill:#324b61; }
+      .groupTitle { font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; fill:#1c2a3a; }
+      .note { font-family: Arial, Helvetica, sans-serif; font-size: 12px; fill:#5a6f84; font-style: italic; }
+      .line { stroke:#2f4a77; stroke-width:2; fill:none; }
+      .dash { stroke:#6c8db1; stroke-width:2; fill:none; stroke-dasharray:6 6; }
+      .accent { fill:#eaf6ff; stroke:#1b79c8; stroke-width:2; rx:10; ry:10; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 z" fill="#2f4a77" />
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 z" fill="#1b79c8" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text class="title" x="40" y="40">RM2025 PowerControlBoard · 控制与数据流示意图</text>
+  <text class="note" x="40" y="60">简化示意，展示主要数据与控制路径（非时序/比例图）</text>
+
+  <!-- Sensors & ADC -->
+  <rect class="box" x="40" y="80" width="260" height="140"/>
+  <text class="groupTitle" x="55" y="105">传感与采样</text>
+  <text class="small" x="55" y="130">OPAMP1~4 · DAC · COMP</text>
+  <text class="small" x="55" y="150">ADC1/ADC2 同步 + DMA</text>
+  <text class="small" x="55" y="170">ADC4（NTC/辅助电源）</text>
+  <text class="small" x="55" y="190">测量: iA iB iR vA vB (iWPT vWPT)</text>
+
+  <!-- ADC Processing -->
+  <rect class="box" x="340" y="80" width="300" height="180"/>
+  <text class="groupTitle" x="355" y="105">ADC处理与派生量</text>
+  <text class="small" x="355" y="130">滤波：一阶LF/MF融合</text>
+  <text class="small" x="355" y="150">计算：vCap = vB - iCap·DCR</text>
+  <text class="small" x="355" y="170">pReferee = vA·iR, pChassis = vA·(iR-iA)</text>
+  <text class="small" x="355" y="190">WPT: pWPT = vWPT·iWPT</text>
+  <text class="small" x="355" y="210">输出：iCaplf vCaplf pChassislf pWPTlf …</text>
+
+  <!-- Control & Limits -->
+  <rect class="accent" x="680" y="60" width="300" height="200"/>
+  <text class="groupTitle" x="695" y="85">控制与限幅</text>
+  <text class="small" x="695" y="110">Referee回路: kP/kI/kD, pRef目标</text>
+  <text class="small" x="695" y="130">Loop控制: 增量式PID, KI参数组</text>
+  <text class="small" x="695" y="150">限幅因子: 裁判功率/电容电压/IB±</text>
+  <text class="small" x="695" y="170">WPT目标电压与功率协调</text>
+  <text class="small" x="695" y="190">输出：iL目标/占空调节建议</text>
+
+  <!-- Mode State Machine -->
+  <rect class="box" x="1010" y="60" width="150" height="140"/>
+  <text class="groupTitle" x="1025" y="85">模式状态机</text>
+  <text class="small" x="1025" y="110">BUCK</text>
+  <text class="small" x="1025" y="126">BUCKBOOST</text>
+  <text class="small" x="1025" y="142">BOOSTBUCK</text>
+  <text class="small" x="1025" y="158">BOOST</text>
+  <text class="small" x="1025" y="174">(校准A/B)</text>
+
+  <!-- HRTIM PWM -->
+  <rect class="box" x="960" y="220" width="220" height="110"/>
+  <text class="groupTitle" x="975" y="245">HRTIM PWM生成</text>
+  <text class="small" x="975" y="270">Timer A/B 窗口限幅</text>
+  <text class="small" x="975" y="290">Timer E 额外输出</text>
+
+  <!-- Power Stage -->
+  <rect class="box" x="920" y="360" width="280" height="120"/>
+  <text class="groupTitle" x="935" y="385">功率级（半桥 A/B/E）</text>
+  <text class="small" x="935" y="410">能量流：源侧 vA → 负载/电容 vB</text>
+  <text class="small" x="935" y="430">受模式/占空限制与保护</text>
+
+  <!-- Energy Nodes -->
+  <rect class="box" x="700" y="250" width="200" height="80"/>
+  <text class="groupTitle" x="715" y="275">裁判系统</text>
+  <text class="small" x="715" y="300">pReferee</text>
+
+  <rect class="box" x="700" y="360" width="200" height="100"/>
+  <text class="groupTitle" x="715" y="385">电容阵列</text>
+  <text class="small" x="715" y="410">vCap, iCap, 能量估算</text>
+
+  <rect class="box" x="700" y="480" width="200" height="100"/>
+  <text class="groupTitle" x="715" y="505">底盘负载</text>
+  <text class="small" x="715" y="530">pChassis</text>
+
+  <!-- Communications -->
+  <rect class="box" x="340" y="280" width="300" height="90"/>
+  <text class="groupTitle" x="355" y="305">CAN 接收（裁判/底盘）</text>
+  <text class="small" x="355" y="330">功率上限/能量缓冲/主动限充等</text>
+
+  <rect class="box" x="340" y="390" width="300" height="80"/>
+  <text class="groupTitle" x="355" y="415">CAN 反馈</text>
+  <text class="small" x="355" y="440">状态码/能量/底盘功率/功率上限</text>
+
+  <rect class="box" x="340" y="490" width="300" height="70"/>
+  <text class="groupTitle" x="355" y="515">ASK → WPT</text>
+  <text class="small" x="355" y="538">功率需求与当前功率侧带通信</text>
+
+  <!-- Protection & HMI -->
+  <rect class="accent" x="40" y="260" width="260" height="220"/>
+  <text class="groupTitle" x="55" y="285">保护与人机交互</text>
+  <text class="small" x="55" y="310">错误分级：自动/手动/不可恢复/警告</text>
+  <text class="small" x="55" y="330">蜂鸣器序列 · WS2812 指示</text>
+  <text class="small" x="55" y="350">按键：清错/长按复位</text>
+  <text class="small" x="55" y="370">可禁止输出/触发复位</text>
+
+  <!-- Arrows: Sensors -> ADC Proc -->
+  <path class="line" marker-end="url(#arrow)" d="M300,150 L340,150"/>
+  <!-- Arrows: ADC Proc -> Control -->
+  <path class="line" marker-end="url(#arrow)" d="M640,170 L680,170"/>
+  <!-- Arrows: Control -> Mode -->
+  <path class="line" marker-end="url(#arrow)" d="M980,140 L1010,130"/>
+  <!-- Arrows: Mode -> HRTIM -->
+  <path class="line" marker-end="url(#arrow)" d="M1085,200 L1070,220"/>
+  <!-- Arrows: Control -> HRTIM (direct influence) -->
+  <path class="dash" marker-end="url(#arrowBlue)" d="M830,240 C900,250 930,250 960,250"/>
+  <!-- Arrows: HRTIM -> Power Stage -->
+  <path class="line" marker-end="url(#arrow)" d="M1070,330 L1060,360"/>
+  <!-- Arrows: Power Stage -> Energy Nodes -->
+  <path class="line" marker-end="url(#arrow)" d="M920,410 L900,410 L900,290 L900,290 L900,290"/>
+  <path class="line" marker-end="url(#arrow)" d="M920,410 L900,410 L900,410"/>
+  <path class="line" marker-end="url(#arrow)" d="M920,440 L900,440 L900,520"/>
+  <!-- Connect to each node horizontally -->
+  <path class="line" marker-end="url(#arrow)" d="M700,290 L900,290"/>
+  <path class="line" marker-end="url(#arrow)" d="M700,410 L920,410"/>
+  <path class="line" marker-end="url(#arrow)" d="M700,520 L900,520"/>
+
+  <!-- Feedback: Energy Nodes -> ADC Proc -->
+  <path class="dash" marker-end="url(#arrowBlue)" d="M900,290 C860,260 760,230 640,210"/>
+  <path class="dash" marker-end="url(#arrowBlue)" d="M900,410 C820,330 740,250 640,200"/>
+  <path class="dash" marker-end="url(#arrowBlue)" d="M900,520 C820,460 740,280 640,190"/>
+
+  <!-- CAN Rx -> Control -->
+  <path class="line" marker-end="url(#arrow)" d="M640,320 L680,200"/>
+  <!-- ADC Proc -> CAN Tx -->
+  <path class="line" marker-end="url(#arrow)" d="M490,260 L490,390"/>
+  <!-- Control -> CAN Tx (limits) -->
+  <path class="dash" marker-end="url(#arrowBlue)" d="M620,220 L620,390"/>
+
+  <!-- ASK -> WPT (external) -->
+  <rect class="box" x="700" y="610" width="200" height="80"/>
+  <text class="groupTitle" x="715" y="635">外部 WPT 管理器</text>
+  <text class="small" x="715" y="660">接收ASK功率需求</text>
+  <path class="line" marker-end="url(#arrow)" d="M640,525 L700,650"/>
+  <text class="small" x="560" y="545">ASK 帧</text>
+
+  <!-- Protection monitoring paths -->
+  <path class="dash" marker-end="url(#arrowBlue)" d="M300,320 L340,200"/>
+  <path class="dash" marker-end="url(#arrowBlue)" d="M300,360 L680,240"/>
+  <text class="small" x="60" y="500">保护模块监视采样/控制并可禁止输出</text>
+
+  <!-- Legend -->
+  <rect x="40" y="540" width="430" height="110" fill="#ffffff" stroke="#d2dbe6" rx="8" ry="8"/>
+  <text class="groupTitle" x="55" y="565">图例</text>
+  <path class="line" d="M55,585 L95,585" marker-end="url(#arrow)"/>
+  <text class="label" x="105" y="590">主数据/能量流向</text>
+  <path class="dash" d="M55,610 L95,610" marker-end="url(#arrowBlue)"/>
+  <text class="label" x="105" y="615">控制/反馈/监视链路</text>
+
+</svg>

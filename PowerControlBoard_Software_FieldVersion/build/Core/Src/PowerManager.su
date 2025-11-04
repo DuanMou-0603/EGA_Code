@@ -1,0 +1,31 @@
+Core/Src/PowerManager.cpp:24:6:void HRTIM::startTimer()	8	static
+Core/Src/PowerManager.cpp:34:6:void HRTIM::stopTimer()	16	static
+Core/Src/PowerManager.cpp:44:6:bool HRTIM::enableOutputAB()	16	static
+Core/Src/PowerManager.cpp:55:6:bool HRTIM::enableOutputE(float)	16	static
+Core/Src/PowerManager.cpp:66:6:void HRTIM::disableOutputE()	8	static
+Core/Src/PowerManager.cpp:74:6:void HRTIM::disableOutputAB()	8	static
+Core/Src/PowerManager.cpp:92:47:void HRTIM::modeStateMachine()	4	static
+Core/Src/PowerManager.cpp:209:6:void ADC::initAnalog()	24	static
+Core/Src/PowerManager.cpp:242:6:void ADC::initADC()	24	static
+Core/Src/PowerManager.cpp:262:47:void ADC::updateADCmf()	48	static
+Core/Src/PowerManager.cpp:361:6:void ADC::updateADClf()	0	static
+Core/Src/PowerManager.cpp:380:6:void PowerControl::powerOnOffControl()	8	static
+Core/Src/PowerManager.cpp:418:47:void PowerControl::updateMFLoop()	24	static
+Core/Src/PowerManager.cpp:479:6:void PowerControl::updateRefereePower(const RxData&, const uint32_t&)	4	static
+Core/Src/PowerManager.cpp:505:6:void PowerControl::checkRxDataTimeout(const uint32_t&)	4	static
+Core/Src/PowerManager.cpp:531:6:void Protection::errorHandlerLF()	16	static
+Core/Src/PowerManager.cpp:560:6:void Protection::checkLowBattery()	0	static
+Core/Src/PowerManager.cpp:593:47:void Protection::checkShortCircuit()	16	static
+Core/Src/PowerManager.cpp:633:47:void Protection::checkEfficiency()	0	static
+Core/Src/PowerManager.cpp:641:6:void Protection::hrtimFaultHandler()	8	static
+Core/Src/PowerManager.cpp:678:6:void Protection::configAWDG()	4	static
+Core/Src/PowerManager.cpp:688:6:void Protection::checkHardwareUID()	8	static
+Core/Src/PowerManager.cpp:712:6:void Protection::autoClearError()	16	static
+Core/Src/PowerManager.cpp:724:6:void Protection::manualClearError()	8	static
+Core/Src/PowerManager.cpp:743:47:void CAPARR::updateMaxCurrent()	0	static
+Core/Src/PowerManager.cpp:770:10:uint16_t CAPARR::getMaxPowerFeedback()	0	static
+Core/Src/PowerManager.cpp:781:6:void CAPARR::restartEstimation(const uint32_t&)	4	static
+Core/Src/PowerManager.cpp:790:6:void CAPARR::estimateCapacity(const uint32_t&)	4	static
+Core/Src/PowerManager.cpp:845:51:void HRTIM1_Master_IRQHandler()	40	static
+Core/Src/PowerManager.cpp:945:10:void HRTIM1_FLT_IRQHandler()	8	static
+Core/Src/PowerManager.cpp:950:1:cpp)	4	static
